@@ -1,0 +1,58 @@
+.side-drawer {
+  position: fixed;
+  top: 0;
+  right: -70%;
+  width: 70%;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease-in-out;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+}
+
+.side-drawer.open {
+  right: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 1040;
+}
+
+/* Footer always at bottom */
+.sidebar-footer {
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+}
+
+/* Bigger Clerk avatar */
+.user-avatar-lg {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.user-avatar-xl {
+  width: 56px !important;
+  height: 56px !important;
+}
+
+.text-bold{
+  font-weight: bold;
+}
+.active-nav-item {
+  background-color: #e0f0ff; /* Light bluish shade */
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+.br-pill{
+  border-radius: 20%;
+}

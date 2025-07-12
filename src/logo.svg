@@ -1,0 +1,23 @@
+<svg width="200" height="80" viewBox="90 0 80 100" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, sans-serif">
+  <!-- Q icon background circle -->
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00c6ff"/>
+      <stop offset="100%" stop-color="#0072ff"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="40" fill="url(#grad)" />
+
+  <!-- Document symbol -->
+  <rect x="35" y="30" width="20" height="30" fill="white" rx="2" />
+  <line x1="37" y1="35" x2="53" y2="35" stroke="#00c6ff" stroke-width="2" />
+  <line x1="37" y1="40" x2="53" y2="40" stroke="#00c6ff" stroke-width="2" />
+  <line x1="37" y1="45" x2="50" y2="45" stroke="#00c6ff" stroke-width="2" />
+
+  <!-- Q tail -->
+  <path d="M65,65 Q50,90 45,65" fill="url(#grad)" />
+
+  <!-- Text: QuickBill -->
+  <text x="100" y="58" font-size="32" fill="#003366">Quick</text>
+  <text x="185" y="58" font-size="32" fill="#00c6aa" font-weight="bold">Bills</text>
+</svg>
