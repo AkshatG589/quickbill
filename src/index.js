@@ -4,7 +4,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { BrowserRouter } from 'react-router-dom';
-
 // ✅ Use your Clerk publishable key here
 const publishableKey = process.env.REACT_APP_PUBLIC_KEY;
 

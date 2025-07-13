@@ -9,12 +9,13 @@ import SignUpPage from "./pages/SignUpPage"
 import Token from "./pages/Token"
 import BusinessDetails from "./pages/BusinessDetails"
 import NavBar from "./Components/NavBar"
-
+import Preview from "./Components/Preview"
 function App() {
   return (
     <div>
       <NavBar />
       <Routes>
+        <Route path="/preview" element={<Preview />} />
         <Route path="/" element={<Token />} />
         <Route path="/about" element={<About />} />
         <Route path="/create-bill" element={<CreateBill />} />
