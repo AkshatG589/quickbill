@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const BillHistory = require("../models/BillHistory");
-const { requireAuth } = require("@clerk/express"); // ✅ correct import
-
+const { requireAuth } = require("@clerk/express");
+console.log("hello from bill history")
 // ✅ GET all bills for current user
-router.get("/all", requireAuth, async (req, res) => {
+router.get("/all", requireAuth(), async (req, res) => {
   try {
     const userId = req.auth.userId;
     const bills = await BillHistory.find({ userId }).sort({ createdAt: -1 });
@@ -15,43 +15,34 @@ router.get("/all", requireAuth, async (req, res) => {
   }
 });
 
-// ✅ POST to add a new bill
-router.post("/add", requireAuth, async (req, res) => {
+// ✅ POST to add a new bill (data comes pre-calculated)
+router.post("/add", requireAuth(), async (req, res) => {
   try {
     const userId = req.auth.userId;
     const {
       invoiceNo,
       billId,
       products,
-      discount = 0,
-      billImageUrl = ""
+      subtotal,
+      discount,
+      grandTotal
     } = req.body;
 
-    if (!invoiceNo || !billId || !products || products.length === 0) {
+    if (
+      !invoiceNo || !billId || !products || products.length === 0 ||
+      subtotal === undefined || grandTotal === undefined
+    ) {
       return res.status(400).json({ success: false, message: "Required fields missing" });
     }
-
-    // Calculate totals
-    const calculatedProducts = products.map((p) => ({
-      ...p,
-      total: p.price * p.quantity,
-    }));
-
-    const totalBeforeDiscount = calculatedProducts.reduce(
-      (acc, curr) => acc + curr.total,
-      0
-    );
-
-    const grandTotal = totalBeforeDiscount - discount;
 
     const newBill = new BillHistory({
       userId,
       invoiceNo,
       billId,
-      products: calculatedProducts,
+      products,
+      subtotal,
       discount,
       grandTotal,
-      billImageUrl,
     });
 
     await newBill.save();
@@ -63,4 +54,22 @@ router.post("/add", requireAuth, async (req, res) => {
   }
 });
 
+// ✅ GET a specific bill by _id
+router.get("/:id", requireAuth(), async (req, res) => {
+  try {
+    const userId = req.auth.userId;
+    const billId = req.params.id;
+
+    const bill = await BillHistory.findOne({ userId, _id: billId });
+
+    if (!bill) {
+      return res.status(404).json({ success: false, message: "Bill not found" });
+    }
+
+    res.json({ success: true, bill });
+  } catch (err) {
+    console.error("Error fetching bill by ID:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 module.exports = router;
