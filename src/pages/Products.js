@@ -9,7 +9,10 @@ const categoryOptions = ["Electronics", "Clothing", "Food", "Books", "Others"];
 
 const fetchProducts = async () => { setLoading(true); try { const token = await getToken(); const res = await axios.get("http://localhost:5000/api/products/all", { headers: { Authorization: `Bearer ${token}`}, }); setProducts(res.data.products); } catch (err) { console.error("Failed to fetch products", err); } finally { setLoading(false); } };
 
-useEffect(() => { fetchProducts(); }, []);
+useEffect(() => {
+  fetchProducts(); 
+  // eslint-disable-next-line
+}, []);
 
 const validate = () => { const errs = {}; if (!formData.name) errs.name = "Name is required"; if (!formData.price || parseFloat(formData.price) <= 0) errs.price = "Price must be greater than 0"; if (!formData.category) errs.category = "Category is required"; setErrors(errs); return Object.keys(errs).length === 0; };
 

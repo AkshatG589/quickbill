@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Badge, Button } from "react-bootstrap";
+import { Badge } from "react-bootstrap";
 import Preview from "../Components/Preview";
 import moment from "moment";
 import { useAuth } from "@clerk/clerk-react";
@@ -15,6 +15,7 @@ function History() {
   useEffect(() => {
     fetchBusiness();
     fetchBills();
+    // eslint-disable-next-line
   }, []);
 
   const fetchBusiness = async () => {
@@ -67,17 +68,17 @@ function History() {
       <h4 className="fw-bold mb-4">Your Previous Bills</h4>
 
       <div className="input-group mb-4 shadow-sm">
-  <span className="input-group-text bg-white border-end-0">
-    <i className="bi bi-search"></i>
-  </span>
-  <input
-    type="text"
-    className="form-control border-start-0"
-    placeholder="Search by bill number..."
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-  />
-</div>
+        <span className="input-group-text bg-white border-end-0">
+          <i className="bi bi-search"></i>
+        </span>
+        <input
+          type="text"
+          className="form-control border-start-0"
+          placeholder="Search by bill number..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
       {loading ? (
         <div className="text-center my-5">
@@ -107,23 +108,45 @@ function History() {
             {billsOfDay.map((bill) => (
               <div
                 key={bill._id}
-                className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-2 rounded border"
+                className="shadow-sm p-3 mb-3 rounded border"
               >
-                <div className="d-flex align-items-center gap-3">
-                  <div>
-                    <div className="fw-bold">{bill.invoiceNo}</div>
-                    <div className="text-muted small">
-                      {moment(bill.createdAt).format("hh:mm A")}
+                {/* Mobile/Small screen layout */}
+                <div className="d-block d-md-none">
+                  <div className="fw-bold">{bill.invoiceNo}</div>
+                  <div className="text-muted small">
+                    {moment(bill.createdAt).format("hh:mm A")} |{" "}
+                    <Badge bg="light" text="dark">
+                      {bill.products.length} items
+                    </Badge>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="fw-bold text-end mt-2">
+                      ₹{bill.grandTotal.toFixed(2)}
+                    </div>
+                    <div className="mt-2">
+                      <Preview business={business} bill={bill} />
                     </div>
                   </div>
-                  <Badge bg="light" text="dark">
-                    {bill.products.length} items
-                  </Badge>
                 </div>
 
-                <div className="d-flex align-items-center gap-3">
-                  <div className="fw-bold">₹{bill.grandTotal.toFixed(2)}</div>
-                  <Preview business={business} bill={bill} />
+                {/* Desktop layout */}
+                <div className="d-none d-md-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center gap-3">
+                    <div>
+                      <div className="fw-bold">{bill.invoiceNo}</div>
+                      <div className="text-muted small">
+                        {moment(bill.createdAt).format("hh:mm A")}
+                      </div>
+                    </div>
+                    <Badge bg="light" text="dark">
+                      {bill.products.length} items
+                    </Badge>
+                  </div>
+
+                  <div className="d-flex align-items-center">
+                    <div className="fw-bold">₹{bill.grandTotal.toFixed(2)}</div>
+                    <Preview business={business} bill={bill} />
+                  </div>
                 </div>
               </div>
             ))}

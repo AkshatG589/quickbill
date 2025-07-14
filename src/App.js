@@ -6,23 +6,21 @@ import History from "./pages/History"
 import Products from "./pages/Products"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
-import Token from "./pages/Token"
+//import Token from "./pages/Token"
 import BusinessDetails from "./pages/BusinessDetails"
 import NavBar from "./Components/NavBar"
-import Preview from "./Components/Preview"
 function App() {
   return (
     <div>
       <NavBar />
       <Routes>
-        <Route path="/preview" element={<Preview />} />
-        <Route path="/" element={<Token />} />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/create-bill" element={<CreateBill />} />
         <Route path="/bill-history" element={<History />} />
          <Route path="/products" element={<Products/>} />
         <Route path="/business-details" element={<BusinessDetails/>} />
-         
+
         <Route path="/sign-in/*" element={<SignInPage />} />
          <Route path="/sign-up/*" element={<SignUpPage />} />
       </Routes>

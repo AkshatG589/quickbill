@@ -48,6 +48,7 @@ function BusinessDetails() {
 
   useEffect(() => {
     fetchBusinessInfo();
+    // eslint-disable-next-line
   }, [isLoaded]);
 
   const handleUpdate = async () => {
