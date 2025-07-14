@@ -11,7 +11,6 @@ const BillHistory = new mongoose.Schema(
   {
     userId: { type: String, required: true }, // Clerk user ID
     invoiceNo: { type: String, required: true, unique: true },
-    billId: { type: String, required: true },
     products: [BillProduct],
     subtotal: { type: Number, required: true },   // Before discount
     discount: { type: Number, default: 0 },       // Flat discount

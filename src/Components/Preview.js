@@ -1,80 +1,68 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import html2canvas from "html2canvas";
 import { Button, Modal } from "react-bootstrap";
+import moment from "moment";
 
-function Preview() {
+function Preview({ business, bill }) {
   const invoiceRef = useRef();
-  const [showPreview, setShowPreview] = useState(false);
+  const [showModal, setShowModal] = React.useState(false);
 
   const handleDownload = async () => {
     const canvas = await html2canvas(invoiceRef.current);
+    const imgData = canvas.toDataURL();
     const link = document.createElement("a");
-    link.download = "bill_invoice.png";
-    link.href = canvas.toDataURL();
+    link.download = `${bill.invoiceNo}.png`;
+    link.href = imgData;
     link.click();
   };
 
-  // Dummy Business Info
-  const business = {
-    name: "Shyam Baratan Bhandhar",
-    address: "JARULI PHASE 2",
-    gstNumber: "GSTIN: 29ABCDE1234F2Z5",
-    phone: "6388523305",
-    invoiceNo: "INV-002",
-    date: "12 July 2025",
-  };
+  const businessName = business?.businessName || "Your Business";
+  const address = business?.address || "";
+  const gstin = business?.gstin || "";
+  const phone = business?.phone || "";
 
-  const products = [
-    { name: "Milton 1L", price: 1150, qty: 100, total: 115000 },
-    { name: "Milton MUG", price: 20, qty: 1, total: 20 },
-  ];
-
-  const subtotal = products.reduce((acc, p) => acc + p.total, 0);
-  const totalDiscount = 50; // Sample discount
-  const grandTotal = subtotal - totalDiscount;
+  const invoiceNo = bill?.invoiceNo || "INV-000";
+  const date = moment(bill?.createdAt).format("DD MMMM YYYY");
+  const products = bill?.products || [];
+  const subtotal = bill?.subtotal || 0;
+  const discount = bill?.discount || 0;
+  const grandTotal = bill?.grandTotal || 0;
 
   return (
-    <div className="text-center mt-4">
-      {/* Preview Button */}
-      <Button variant="primary" onClick={() => setShowPreview(true)}>
-        <i className="bi bi-eye"></i> Preview
+    <>
+      {/* ✅ View Button */}
+      <Button variant="outline-dark" size="sm" onClick={() => setShowModal(true)}>
+        <i className="bi bi-eye"></i> View
       </Button>
 
-      {/* Preview Modal */}
-      <Modal show={showPreview} onHide={() => setShowPreview(false)} size="lg" centered>
-        <Modal.Header>
+      {/* ✅ Single Modal for Preview & Download */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
+        <Modal.Header closeButton>
           <Modal.Title>Invoice Preview</Modal.Title>
-          <button className="btn-close" onClick={() => setShowPreview(false)}></button>
         </Modal.Header>
+
         <Modal.Body>
           <div className="p-3" ref={invoiceRef}>
             {/* Business Header */}
             <div className="text-center mb-3">
-              <h4 className="fw-bold">{business.name}</h4>
-              <div className="text-muted">{business.address}</div>
-              <div className="text-muted">{business.gstNumber}</div>
-              <div className="text-muted">Phone: {business.phone}</div>
+              <h4 className="fw-bold">{businessName}</h4>
+              <div className="text-muted">{address}</div>
+              {gstin && <div className="text-muted">GSTIN: {gstin}</div>}
+              <div className="text-muted">Phone: {phone}</div>
             </div>
 
             <hr />
 
             {/* Bill Info */}
             <div className="mb-2">
-              <strong>Bill No:</strong> {business.invoiceNo}
+              <strong>Bill No:</strong> {invoiceNo}
             </div>
             <div className="mb-3">
-              <strong>Date:</strong> {business.date}
+              <strong>Date:</strong> {date}
             </div>
 
             {/* Product Table */}
-            <table
-              className="table"
-              style={{
-                borderCollapse: "collapse",
-                width: "100%",
-                border: "2px solid #000",
-              }}
-            >
+            <table className="table" style={{ borderCollapse: "collapse", border: "2px solid #000" }}>
               <thead>
                 <tr>
                   <th style={{ border: "0.5px solid #000", backgroundColor: "#f2f2f2" }}>Item</th>
@@ -85,10 +73,10 @@ function Preview() {
               </thead>
               <tbody>
                 {products.map((p, i) => (
-                  <tr key={i}>
-                    <td style={{ border: "0.5px solid #000" }}>{p.name}</td>
+                  <tr key={p._id || i}>
+                    <td style={{ border: "0.5px solid #000" }}>{p.productName}</td>
                     <td style={{ border: "0.5px solid #000" }}>₹{p.price.toFixed(2)}</td>
-                    <td style={{ border: "0.5px solid #000" }}>{p.qty}</td>
+                    <td style={{ border: "0.5px solid #000" }}>{p.quantity}</td>
                     <td style={{ border: "0.5px solid #000" }}>₹{p.total.toFixed(2)}</td>
                   </tr>
                 ))}
@@ -97,12 +85,20 @@ function Preview() {
                   <td style={{ border: "0.5px solid #000" }}>₹{subtotal.toFixed(2)}</td>
                 </tr>
                 <tr>
-                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}><strong>Discount:</strong></td>
-                  <td className="text-success fw-bold" style={{ border: "0.5px solid #000" }}>₹{totalDiscount.toFixed(2)}</td>
+                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>
+                    <strong>Discount:</strong>
+                  </td>
+                  <td style={{ border: "0.5px solid #000", color: "green", fontWeight: "bold" }}>
+                    ₹{discount.toFixed(2)}
+                  </td>
                 </tr>
                 <tr>
-                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}><strong>Total:</strong></td>
-                  <td style={{ border: "0.5px solid #000", fontWeight: "bold" }}>₹{grandTotal.toFixed(2)}</td>
+                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>
+                    <strong>Total:</strong>
+                  </td>
+                  <td style={{ border: "0.5px solid #000", fontWeight: "bold" }}>
+                    ₹{grandTotal.toFixed(2)}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -110,16 +106,12 @@ function Preview() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            className="w-100 d-flex align-items-center justify-content-center gap-2"
-            onClick={handleDownload}
-            variant="dark"
-          >
+          <Button className="w-100 d-flex align-items-center justify-content-center gap-2" variant="dark" onClick={handleDownload}>
             <i className="bi bi-download"></i> Download
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 }
 

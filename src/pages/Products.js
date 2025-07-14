@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react"; import axios from "axios"; i
 
 function Products() { const { getToken } = useAuth();
 
-const [products, setProducts] = useState([]); const [search, setSearch] = useState(""); const [showAddModal, setShowAddModal] = useState(false); const [showEditModal, setShowEditModal] = useState(false); const [editProduct, setEditProduct] = useState(null); const [formData, setFormData] = useState({ name: "", price: "", category: "" }); const [errors, setErrors] = useState({}); const [loading, setLoading] = useState(true);
+const [products, setProducts] = useState([]); const [search, setSearch] = useState(""); const [showAddModal, setShowAddModal] = useState(false); const [showEditModal, setShowEditModal] = useState(false); const [editProduct, setEditProduct] = useState(null); const [formData, setFormData] = useState({ name: "", price: "", category: "" }); const [errors, setErrors] = useState({});
+const [loading, setLoading] = useState(true);
 
 const categoryOptions = ["Electronics", "Clothing", "Food", "Books", "Others"];
 
@@ -24,18 +25,28 @@ const filteredProducts = products.filter((p) => p.name.toLowerCase().includes(se
 
 return ( <div className="container mt-4"><h2 className="text-center mb-4 fw-bold display-5">Products</h2>
 
-<div className="d-flex justify-content-between mb-3">
-    <input
-      type="text"
-      className="form-control w-50"
-      placeholder="Search by name..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-    />
-    <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
-      Add Product
-    </button>
-  </div>
+    <div className="input-group w-100 mb-4 shadow-sm rounded overflow-hidden">
+  <span className="input-group-text bg-white border-end-0">
+    <i className="bi bi-search"></i>
+  </span>
+  <input
+    type="text"
+    className="form-control border-start-0"
+    placeholder="Search by name..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+</div>
+   
+<div className="my-3">
+  <button
+    className="btn btn-primary d-flex align-items-center gap-2 shadow-sm"
+    onClick={() => setShowAddModal(true)}
+  >
+    <i className="bi bi-plus-lg"></i>
+    Add Product
+  </button>
+</div>
 
   {loading ? (
     <div className="text-center my-5">

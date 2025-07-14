@@ -21,7 +21,6 @@ router.post("/add", requireAuth(), async (req, res) => {
     const userId = req.auth.userId;
     const {
       invoiceNo,
-      billId,
       products,
       subtotal,
       discount,
@@ -29,7 +28,7 @@ router.post("/add", requireAuth(), async (req, res) => {
     } = req.body;
 
     if (
-      !invoiceNo || !billId || !products || products.length === 0 ||
+      !invoiceNo || !products || products.length === 0 ||
       subtotal === undefined || grandTotal === undefined
     ) {
       return res.status(400).json({ success: false, message: "Required fields missing" });
@@ -38,7 +37,6 @@ router.post("/add", requireAuth(), async (req, res) => {
     const newBill = new BillHistory({
       userId,
       invoiceNo,
-      billId,
       products,
       subtotal,
       discount,

@@ -1,10 +1,135 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Badge, Button } from "react-bootstrap";
+import Preview from "../Components/Preview";
+import moment from "moment";
+import { useAuth } from "@clerk/clerk-react";
 
 function History() {
+  const { getToken } = useAuth();
+  const [business, setBusiness] = useState(null);
+  const [bills, setBills] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBusiness();
+    fetchBills();
+  }, []);
+
+  const fetchBusiness = async () => {
+    try {
+      setLoading(true);
+      const token = await getToken();
+      const res = await axios.get("http://localhost:5000/api/business-info/get", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.success) {
+        setBusiness(res.data.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch business info", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchBills = async () => {
+    try {
+      setLoading(true);
+      const token = await getToken();
+      const res = await axios.get("http://localhost:5000/api/bills/all", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.success) {
+        setBills(res.data.bills);
+      }
+    } catch (err) {
+      console.error("Failed to fetch bills", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredBills = bills.filter((bill) =>
+    bill.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const groupedBills = filteredBills.reduce((acc, bill) => {
+    const date = moment(bill.createdAt).format("dddd D MMMM, YYYY");
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(bill);
+    return acc;
+  }, {});
+
   return (
-    <div className="container mt-5 text-center">
-      <h1>Welcome to QuickBill - History</h1>
-      <p>Your easy billing and invoice management app.</p>
+    <div className="container mt-4">
+      <h4 className="fw-bold mb-4">Your Previous Bills</h4>
+
+      <div className="input-group mb-4 shadow-sm">
+  <span className="input-group-text bg-white border-end-0">
+    <i className="bi bi-search"></i>
+  </span>
+  <input
+    type="text"
+    className="form-control border-start-0"
+    placeholder="Search by bill number..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+</div>
+
+      {loading ? (
+        <div className="text-center my-5">
+          <div className="spinner-border text-primary" role="status" />
+          <p className="mt-3">Loading...</p>
+        </div>
+      ) : bills.length === 0 ? (
+        <div className="text-center text-muted my-5">
+          <i className="bi bi-receipt-cutoff display-3 mb-3"></i>
+          <h5>No bills yet</h5>
+        </div>
+      ) : filteredBills.length === 0 ? (
+        <div className="text-center text-muted my-5">
+          <i className="bi bi-search display-3 mb-3"></i>
+          <h5>No bill found</h5>
+        </div>
+      ) : (
+        Object.entries(groupedBills).map(([date, billsOfDay]) => (
+          <div key={date} className="mb-4">
+            <h6 className="mb-3">
+              {date}{" "}
+              <Badge bg="secondary">
+                {billsOfDay.length} bill{billsOfDay.length > 1 ? "s" : ""}
+              </Badge>
+            </h6>
+
+            {billsOfDay.map((bill) => (
+              <div
+                key={bill._id}
+                className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-2 rounded border"
+              >
+                <div className="d-flex align-items-center gap-3">
+                  <div>
+                    <div className="fw-bold">{bill.invoiceNo}</div>
+                    <div className="text-muted small">
+                      {moment(bill.createdAt).format("hh:mm A")}
+                    </div>
+                  </div>
+                  <Badge bg="light" text="dark">
+                    {bill.products.length} items
+                  </Badge>
+                </div>
+
+                <div className="d-flex align-items-center gap-3">
+                  <div className="fw-bold">₹{bill.grandTotal.toFixed(2)}</div>
+                  <Preview business={business} bill={bill} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ))
+      )}
     </div>
   );
 }
