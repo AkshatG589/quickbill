@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"; import axios from "axios"; import { useAuth } from "@clerk/clerk-react";
 
 function Products() { const { getToken } = useAuth();
-
+const Host = process.env.REACT_APP_HOST;
 const [products, setProducts] = useState([]); const [search, setSearch] = useState(""); const [showAddModal, setShowAddModal] = useState(false); const [showEditModal, setShowEditModal] = useState(false); const [editProduct, setEditProduct] = useState(null); const [formData, setFormData] = useState({ name: "", price: "", category: "" }); const [errors, setErrors] = useState({});
 const [loading, setLoading] = useState(true);
 
 const categoryOptions = ["Electronics", "Clothing", "Food", "Books", "Others"];
 
-const fetchProducts = async () => { setLoading(true); try { const token = await getToken(); const res = await axios.get("http://localhost:5000/api/products/all", { headers: { Authorization: `Bearer ${token}`}, }); setProducts(res.data.products); } catch (err) { console.error("Failed to fetch products", err); } finally { setLoading(false); } };
+const fetchProducts = async () => { setLoading(true); try { const token = await getToken(); const res = await axios.get(`${Host}/api/products/all`, { headers: { Authorization: `Bearer ${token}`}, }); setProducts(res.data.products); } catch (err) { console.error("Failed to fetch products", err); } finally { setLoading(false); } };
 
 useEffect(() => {
   fetchProducts(); 
@@ -16,13 +16,13 @@ useEffect(() => {
 
 const validate = () => { const errs = {}; if (!formData.name) errs.name = "Name is required"; if (!formData.price || parseFloat(formData.price) <= 0) errs.price = "Price must be greater than 0"; if (!formData.category) errs.category = "Category is required"; setErrors(errs); return Object.keys(errs).length === 0; };
 
-const handleAddProduct = async () => { if (!validate()) return; try { const token = await getToken(); await axios.post("http://localhost:5000/api/products/add", formData, { headers: { Authorization: `Bearer ${token} `}, }); setShowAddModal(false); setFormData({ name: "", price: "", category: "" }); fetchProducts(); } catch (err) { console.error("Error adding product", err); } };
+const handleAddProduct = async () => { if (!validate()) return; try { const token = await getToken(); await axios.post(`${Host}/api/products/add`, formData, { headers: { Authorization: `Bearer ${token} `}, }); setShowAddModal(false); setFormData({ name: "", price: "", category: "" }); fetchProducts(); } catch (err) { console.error("Error adding product", err); } };
 
 const handleEditClick = (product) => { setEditProduct(product); setFormData({ name: product.name, price: product.price, category: product.category }); setShowEditModal(true); };
 
-const handleUpdateProduct = async () => { if (!validate()) return; try { const token = await getToken(); await axios.put(`http://localhost:5000/api/products/update/${editProduct._id}`, formData, { headers: { Authorization: `Bearer ${token} `}, }); setShowEditModal(false); setEditProduct(null); setFormData({ name: "", price: "", category: "" }); fetchProducts(); } catch (err) { console.error("Error updating product", err); } };
+const handleUpdateProduct = async () => { if (!validate()) return; try { const token = await getToken(); await axios.put(`${Host}/api/products/update/${editProduct._id}`, formData, { headers: { Authorization: `Bearer ${token} `}, }); setShowEditModal(false); setEditProduct(null); setFormData({ name: "", price: "", category: "" }); fetchProducts(); } catch (err) { console.error("Error updating product", err); } };
 
-const handleDeleteProduct = async (id) => { if (!window.confirm("Are you sure you want to delete this product?")) return; try { const token = await getToken(); await axios.delete(`http://localhost:5000/api/products/delete/${id}`, { headers: { Authorization: `Bearer ${token} `}, }); fetchProducts(); } catch (err) { console.error("Error deleting product", err); } };
+const handleDeleteProduct = async (id) => { if (!window.confirm("Are you sure you want to delete this product?")) return; try { const token = await getToken(); await axios.delete(`${Host}/api/products/delete/${id}`, { headers: { Authorization: `Bearer ${token} `}, }); fetchProducts(); } catch (err) { console.error("Error deleting product", err); } };
 
 const filteredProducts = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()) );
 

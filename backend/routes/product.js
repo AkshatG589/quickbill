@@ -81,7 +81,7 @@ router.delete("/delete/:id", requireAuth(), async (req, res) => {
 });
 
 //✅ Getting Product by ID
-router.get("/get/:id", requireAuth(), async (req, res) => {
+/*router.get("/get/:id", requireAuth(), async (req, res) => {
   try {
     const userId = req.auth.userId;
     const productId = req.params.id;
@@ -97,5 +97,5 @@ router.get("/get/:id", requireAuth(), async (req, res) => {
     console.error("Error fetching product:", error);
     res.status(500).json({ error: "Server error" });
   }
-});
+});*/
 module.exports = router;

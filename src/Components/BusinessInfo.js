@@ -3,7 +3,7 @@ import { useAuth } from '@clerk/clerk-react';
 
 const BusinessInfo = (props) => {
   const { getToken } = useAuth();
-
+  const Host = process.env.REACT_APP_HOST;
   const [formData, setFormData] = useState({
     businessName: '',
     gstin: '',
@@ -55,7 +55,7 @@ const BusinessInfo = (props) => {
         uploadedLogoUrl = uploadData.secure_url;
       }
 
-      const res = await fetch('http://localhost:5000/api/business-info/add', {
+      const res = await fetch(`${Host}/api/business-info/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

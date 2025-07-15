@@ -6,13 +6,15 @@ import { BiTrash, BiPlusCircle, BiSave } from "react-icons/bi";
 import { useAuth } from "@clerk/clerk-react";
 import Preview from "../Components/Preview";
 
+const Host = process.env.REACT_APP_HOST;
+
 function CreateBill() {
   const { getToken } = useAuth();
   const [business, setBusiness] = useState(null);
   const [products, setProducts] = useState([]);
   const [billItems, setBillItems] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [discount, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState("");
 
   useEffect(() => {
     fetchBusiness();
@@ -23,7 +25,7 @@ function CreateBill() {
   const fetchBusiness = async () => {
     try {
       const token = await getToken();
-      const res = await axios.get("http://localhost:5000/api/business-info/get", {
+      const res = await axios.get(`${Host}/api/business-info/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data.success) setBusiness(res.data.data);
@@ -35,7 +37,7 @@ function CreateBill() {
   const fetchProducts = async () => {
     try {
       const token = await getToken();
-      const res = await axios.get("http://localhost:5000/api/products/all", {
+      const res = await axios.get(`${Host}/api/products/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data.success) setProducts(res.data.products);
@@ -68,7 +70,7 @@ function CreateBill() {
       }
     } else if (field === "price") {
       items[index].price = parseFloat(value) || 0;
-      items[index].total = items[index].price * (items[index].quantity || 1);
+      items[index].total = items[index].price * (items[index].quantity || 0);
     } else if (field === "quantity") {
       const qty = Math.max(1, parseInt(value) || 1);
       items[index].quantity = qty;
@@ -78,7 +80,8 @@ function CreateBill() {
   };
 
   const subtotal = billItems.reduce((sum, item) => sum + item.total, 0);
-  const grandTotal = subtotal - discount;
+  const discountValue = parseFloat(discount) || 0;
+  const grandTotal = subtotal - discountValue;
 
   const generateInvoiceNo = () => `INV-${Date.now()}`;
 
@@ -87,14 +90,14 @@ function CreateBill() {
     const newBill = {
       invoiceNo,
       products: billItems,
-      discount,
+      discount: discountValue,
       subtotal,
       grandTotal,
     };
 
     try {
       const token = await getToken();
-      await axios.post("http://localhost:5000/api/bills/add", newBill, {
+      await axios.post(`${Host}/api/bills/add`, newBill, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Bill saved successfully!");
@@ -125,52 +128,72 @@ function CreateBill() {
         <>
           {billItems.map((item, index) => (
             <div key={index} className="border p-3 mb-3 rounded shadow-sm bg-light">
-              <Row className="gy-2 gx-3">
-                <Col xs={12} md={4}>
-                  <Form.Control
-                    list="productList"
-                    placeholder="Item name"
-                    value={item.productName}
-                    onChange={(e) =>
-                      handleItemChange(index, "productName", e.target.value)
-                    }
-                  />
-                  <datalist id="productList">
-                    {products.map((p) => (
-                      <option key={p._id} value={p.name} />
-                    ))}
-                  </datalist>
-                </Col>
-                <Col xs={6} md={2}>
-                  <Form.Control
-                    type="number"
-                    placeholder="Price"
-                    value={item.price}
-                    onChange={(e) =>
-                      handleItemChange(index, "price", e.target.value)
-                    }
-                  />
-                </Col>
-                <Col xs={6} md={2}>
-                  <Form.Control
-                    type="number"
-                    min="1"
-                    placeholder="Qty"
-                    value={item.quantity}
-                    onChange={(e) =>
-                      handleItemChange(index, "quantity", e.target.value)
-                    }
-                  />
-                </Col>
-                <Col xs={6} md={2} className="d-flex align-items-center">
-                  <span className="fw-bold">₹{item.total.toFixed(2)}</span>
-                </Col>
-                <Col xs={6} md={2} className="text-end">
-                  <Button variant="danger" onClick={() => handleRemoveItem(index)}>
-                    <BiTrash />
-                  </Button>
-                </Col>
-              </Row>
+<Row className="gy-2 gx-3">
+  {/* Product */}
+  <Col xs={12} md={4}>
+    <div className="d-block d-md-none fw-bold mb-1">Product</div>
+    <Form.Control
+      list="productList"
+      placeholder="Product name"
+      value={item.productName}
+      onChange={(e) =>
+        handleItemChange(index, "productName", e.target.value)
+      }
+    />
+    <datalist id="productList">
+      {products.map((p) => (
+        <option key={p._id} value={p.name} />
+      ))}
+    </datalist>
+  </Col>
+
+  {/* Price */}
+  <Col xs={6} md={2}>
+    <div className="d-block d-md-none fw-bold mb-1">Price</div>
+    <Form.Control
+      type="number"
+      placeholder="Price"
+      value={item.price === 0 ? "" : item.price}
+      onChange={(e) =>
+        handleItemChange(index, "price", e.target.value)
+      }
+    />
+  </Col>
+
+  {/* Quantity */}
+  <Col xs={6} md={2}>
+    <div className="d-block d-md-none fw-bold mb-1">Quantity</div>
+    <Form.Control
+      type="number"
+      min="1"
+      placeholder="Qty"
+      value={item.quantity}
+      onChange={(e) =>
+        handleItemChange(index, "quantity", e.target.value)
+      }
+      onBlur={() => {
+        const items = [...billItems];
+        items[index].touched = true;
+        setBillItems(items);
+      }}
+    />
+  </Col>
+
+  {/* Total */}
+  <Col xs={6} md={2}>
+    <div className="d-block d-md-none fw-bold mb-1">Total</div>
+    <span className="fw-bold d-flex align-items-center h-100">
+      ₹{item.total.toFixed(2)}
+    </span>
+  </Col>
+
+  {/* Delete */}
+  <Col xs={6} md={2} className="text-end">
+    <Button variant="danger" onClick={() => handleRemoveItem(index)}>
+      <BiTrash />
+    </Button>
+  </Col>
+</Row>
             </div>
           ))}
 
@@ -190,33 +213,34 @@ function CreateBill() {
                 type="number"
                 min="0"
                 step="any"
+                placeholder="Enter discount"
                 value={discount}
-                onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
+                onChange={(e) => setDiscount(e.target.value)}
               />
             </InputGroup>
             <h6 className="fw-bold">Total: ₹{grandTotal.toFixed(2)}</h6>
           </div>
 
           {/* Save + Preview */}
-          <div className="d-flex justify-items-center justify-content-between mt-4">
-             <Button
-                variant="dark"
-                className="w-75 fw-bold "
-                onClick={handleSave}
-              >
-                <BiSave className="me-2" />
-                Save Bill
-              </Button>
-              <Preview
-                business={business}
-                bill={{
-                  invoiceNo: generateInvoiceNo(),
-                  products: billItems,
-                  discount,
-                  subtotal,
-                  grandTotal,
-                }}
-              />
+          <div className="d-flex justify-items-center justify-content-between my-4">
+            <Button
+              variant="dark"
+              className="w-75 fw-bold "
+              onClick={handleSave}
+            >
+              <BiSave className="me-2" />
+              Save Bill
+            </Button>
+            <Preview
+              business={business}
+              bill={{
+                invoiceNo: generateInvoiceNo(),
+                products: billItems,
+                discount: discountValue,
+                subtotal,
+                grandTotal,
+              }}
+            />
           </div>
         </>
       )}

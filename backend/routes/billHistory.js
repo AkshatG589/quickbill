@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const BillHistory = require("../models/BillHistory");
 const { requireAuth } = require("@clerk/express");
-console.log("hello from bill history")
 // ✅ GET all bills for current user
 router.get("/all", requireAuth(), async (req, res) => {
   try {
@@ -53,7 +52,7 @@ router.post("/add", requireAuth(), async (req, res) => {
 });
 
 // ✅ GET a specific bill by _id
-router.get("/:id", requireAuth(), async (req, res) => {
+/*router.get("/:id", requireAuth(), async (req, res) => {
   try {
     const userId = req.auth.userId;
     const billId = req.params.id;
@@ -69,5 +68,5 @@ router.get("/:id", requireAuth(), async (req, res) => {
     console.error("Error fetching bill by ID:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
-});
+});*/
 module.exports = router;
