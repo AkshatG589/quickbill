@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from "./pages/Home"
-import About from "./pages/About"
 import CreateBill from "./pages/CreateBill"
 import History from "./pages/History"
 import Products from "./pages/Products"
@@ -15,7 +14,6 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/create-bill" element={<CreateBill />} />
         <Route path="/bill-history" element={<History />} />
          <Route path="/products" element={<Products/>} />

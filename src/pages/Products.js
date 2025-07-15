@@ -226,7 +226,7 @@ function Products() {
                     {product.category}
                   </span>
                 </div>
-                <p className="text-muted mb-3">₹{parseFloat(product.price).toFixed(2)}</p>
+                <p className="text-muted mb-3">₹{Number(product.price).toLocaleString("en-IN")}</p>
                 <div className="d-flex align-items-center gap-2">
                   <button
                     className="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-2"

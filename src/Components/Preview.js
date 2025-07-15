@@ -75,21 +75,21 @@ function Preview({ business, bill }) {
                 {products.map((p, i) => (
                   <tr key={p._id || i}>
                     <td style={{ border: "0.5px solid #000" }}>{p.productName}</td>
-                    <td style={{ border: "0.5px solid #000" }}>₹{p.price}</td>
+                    <td style={{ border: "0.5px solid #000" }}>₹{Number(p.price).toLocaleString("en-IN")}</td>
                     <td style={{ border: "0.5px solid #000" }}>{p.quantity}</td>
-                    <td style={{ border: "0.5px solid #000" }}>₹{p.total}</td>
+                    <td style={{ border: "0.5px solid #000" }}>₹{Number(p.total).toLocaleString("en-IN")}</td>
                   </tr>
                 ))}
                 <tr>
                   <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>Subtotal:</td>
-                  <td style={{ border: "0.5px solid #000" }}>₹{subtotal}</td>
+                  <td style={{ border: "0.5px solid #000" }}>₹{Number(subtotal).toLocaleString("en-IN")}</td>
                 </tr>
                 <tr>
                   <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>
                     <strong>Discount:</strong>
                   </td>
                   <td style={{ border: "0.5px solid #000", color: "green", fontWeight: "bold" }}>
-                    ₹{discount}
+                    ₹{Number(discount).toLocaleString("en-IN")}
                   </td>
                 </tr>
                 <tr>
@@ -97,7 +97,7 @@ function Preview({ business, bill }) {
                     <strong>Total:</strong>
                   </td>
                   <td style={{ border: "0.5px solid #000", fontWeight: "bold" }}>
-                    ₹{grandTotal}
+                    ₹{Number(grandTotal).toLocaleString("en-IN")}
                   </td>
                 </tr>
               </tbody>

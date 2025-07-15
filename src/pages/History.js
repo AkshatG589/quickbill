@@ -120,8 +120,7 @@ function History() {
                     </Badge>
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
-                    <div className="fw-bold text-end mt-2">
-                      ₹{bill.grandTotal.toFixed(2)}
+                    <div className="fw-bold text-end mt-2">₹{Number(bill.grandTotal).toLocaleString("en-IN")}
                     </div>
                     <div className="mt-2">
                       <Preview business={business} bill={bill} />

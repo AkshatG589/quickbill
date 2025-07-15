@@ -182,8 +182,7 @@ function CreateBill() {
   {/* Total */}
   <Col xs={6} md={2}>
     <div className="d-block d-md-none fw-bold mb-1">Total</div>
-    <span className="fw-bold d-flex align-items-center h-100">
-      ₹{item.total.toFixed(2)}
+    <span className="fw-bold d-flex align-items-center h-100">₹{Number(item.total).toLocaleString("en-IN")}
     </span>
   </Col>
 
@@ -206,7 +205,7 @@ function CreateBill() {
           {/* Bill Summary */}
           <div className="border p-3 rounded bg-light">
             <h5 className="fw-bold mb-3">Bill Summary</h5>
-            <p>Subtotal: ₹{subtotal.toFixed(2)}</p>
+            <p>Subtotal: ₹{Number(subtotal).toLocaleString("en-IN")}</p>
             <InputGroup className="mb-2">
               <InputGroup.Text>Discount</InputGroup.Text>
               <Form.Control
@@ -218,7 +217,7 @@ function CreateBill() {
                 onChange={(e) => setDiscount(e.target.value)}
               />
             </InputGroup>
-            <h6 className="fw-bold">Total: ₹{grandTotal.toFixed(2)}</h6>
+            <h6 className="fw-bold">Total: ₹{Number(grandTotal).toLocaleString("en-IN")}</h6>
           </div>
 
           {/* Save + Preview */}
