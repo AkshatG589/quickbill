@@ -11,7 +11,7 @@ function History() {
   const [bills, setBills] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const Host = process.env.REACT_APP_HOST;
   useEffect(() => {
     fetchBusiness();
     fetchBills();
@@ -22,7 +22,7 @@ function History() {
     try {
       setLoading(true);
       const token = await getToken();
-      const res = await axios.get("http://localhost:5000/api/business-info/get", {
+      const res = await axios.get(`${Host}/api/business-info/get`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data.success) {
@@ -39,7 +39,7 @@ function History() {
     try {
       setLoading(true);
       const token = await getToken();
-      const res = await axios.get("http://localhost:5000/api/bills/all", {
+      const res = await axios.get(`${Host}/api/bills/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data.success) {
