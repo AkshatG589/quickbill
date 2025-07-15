@@ -49,7 +49,7 @@ function CreateBill() {
   const handleAddItem = () => {
     setBillItems([
       ...billItems,
-      { productName: "", price: 0, quantity: 1, total: 0 },
+      { productName: "", price: 0, quantity: 0, total: 0 },
     ]);
   };
 
@@ -69,10 +69,10 @@ function CreateBill() {
         items[index].total = selected.price * (items[index].quantity || 1);
       }
     } else if (field === "price") {
-      items[index].price = parseFloat(value) || 0;
-      items[index].total = items[index].price * (items[index].quantity || 0);
+      items[index].price = parseFloat(value);
+      items[index].total = items[index].price * (items[index].quantity);
     } else if (field === "quantity") {
-      const qty = Math.max(1, parseInt(value) || 1);
+      const qty = parseInt(value) 
       items[index].quantity = qty;
       items[index].total = items[index].price * qty;
     }
@@ -167,7 +167,7 @@ function CreateBill() {
       type="number"
       min="1"
       placeholder="Qty"
-      value={item.quantity}
+      value={item.quantity == 0 ? "" : item.quantity}
       onChange={(e) =>
         handleItemChange(index, "quantity", e.target.value)
       }

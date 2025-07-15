@@ -143,7 +143,7 @@ function History() {
                     </Badge>
                   </div>
 
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center gap-2">
                     <div className="fw-bold">₹{bill.grandTotal.toFixed(2)}</div>
                     <Preview business={business} bill={bill} />
                   </div>
