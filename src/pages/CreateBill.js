@@ -167,7 +167,7 @@ function CreateBill() {
       type="number"
       min="1"
       placeholder="Qty"
-      value={item.quantity == 0 ? "" : item.quantity}
+      value={item.quantity === 0 ? "" : item.quantity}
       onChange={(e) =>
         handleItemChange(index, "quantity", e.target.value)
       }
