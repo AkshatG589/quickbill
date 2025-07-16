@@ -4,16 +4,14 @@ import { useAuth } from '@clerk/clerk-react';
 const BusinessInfo = (props) => {
   const { getToken } = useAuth();
   const Host = process.env.REACT_APP_HOST;
+
   const [formData, setFormData] = useState({
     businessName: '',
     gstin: '',
     phone: '',
     address: '',
-    logoUrl: '', // This will be filled if you implement image upload to cloud
   });
 
-  const [logoFile, setLogoFile] = useState(null);
-  const [logoPreview, setLogoPreview] = useState(null);
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -24,14 +22,6 @@ const BusinessInfo = (props) => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setLogoFile(file);
-      setLogoPreview(URL.createObjectURL(file));
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -39,35 +29,17 @@ const BusinessInfo = (props) => {
     try {
       const token = await getToken();
 
-      // Upload logo file to Cloudinary or your image hosting (optional)
-      let uploadedLogoUrl = '';
-      if (logoFile) {
-        const data = new FormData();
-        data.append('file', logoFile);
-        data.append('upload_preset', 'your_upload_preset'); // Replace if using Cloudinary
-
-        const uploadRes = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
-          method: 'POST',
-          body: data,
-        });
-
-        const uploadData = await uploadRes.json();
-        uploadedLogoUrl = uploadData.secure_url;
-      }
-
       const res = await fetch(`${Host}/api/business-info/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...formData,
-          logoUrl: uploadedLogoUrl || '', // Add logo URL if uploaded
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
+
       if (res.ok) {
         setMessage('Business info saved successfully!');
         setFormData({
@@ -75,11 +47,8 @@ const BusinessInfo = (props) => {
           gstin: '',
           phone: '',
           address: '',
-          logoUrl: '',
         });
-        setLogoFile(null);
-        setLogoPreview(null);
-        props.fetchBusinessInfo()
+        props.fetchBusinessInfo();
       } else {
         setMessage(data.error || 'Failed to save info.');
       }
@@ -109,21 +78,6 @@ const BusinessInfo = (props) => {
               value={formData.businessName}
               onChange={handleChange}
             />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="logoUrl" className="form-label">Logo Image</label>
-            <input
-              type="file"
-              className="form-control"
-              id="logoUrl"
-              name="logoUrl"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-            {logoPreview && (
-              <img src={logoPreview} alt="Logo Preview" className="img-thumbnail mt-2" width="120" />
-            )}
           </div>
 
           <div className="mb-3">

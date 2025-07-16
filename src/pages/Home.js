@@ -8,14 +8,14 @@ import heroImage from "../Assets/Image/heroX.png";
 import history from "../Assets/Image/history.png";
 import product from "../Assets/Image/product.png";
 import bill from "../Assets/Image/create.png";
+import "../Style/home.css"; // optional
 function Home({ isLoggedIn }) { const navigate = useNavigate(); const { user } = useUser();
 
 return ( <div className=""> {/* Hero Section */} 
 <div
-  className="d-flex justify-content-center align-items-center text-center bg-light"
+  className="hero-section d-flex justify-content-center align-items-center text-center bg-light "
   style={{
     width:"100vw",
-    height: "40vh",
     backgroundImage: `url(${heroImage})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",

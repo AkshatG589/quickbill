@@ -4,52 +4,41 @@ import { Link } from "react-router-dom";
 import "../Style/Footer.css"; // optional
 
 function Footer() {
+  const footerLinks = [
+    { label: "Create Bill", to: "/create-bill" },
+    { label: "About Us", to: "/about" },
+    { label: "Products", to: "/products" },
+    { label: "Privacy Policy", to: "/privacy-policy" },
+    { label: "Bill History", to: "/bill-history" },
+    { label: "Terms of Service", to: "/terms" },
+    { label: "Business Details", to: "/business-details" },
+    { label: "Support", to: "/support" },
+    { label: "Pricing", to: "/pricing" },
+    { label: "Careers", to: "/careers" },
+    { label: "Help Center", to: "/help" },
+    { label: "Blog", to: "/blog" },
+  ];
+
   return (
     <footer className="bg-light border-top py-4 mt-5 shadow-sm">
       <Container>
+        {/* Branding on Top */}
+        <div className="text-center mb-4">
+          <h5 className="fw-bold">QuickBills</h5>
+          <p className="text-muted small mb-0">
+            Create professional bills, manage your products, and track billing history — all in one place.
+          </p>
+        </div>
+
+        {/* Responsive Links */}
         <Row>
-          <Col xs={12} md={4} className="mb-3">
-            <h5>QuickBills</h5>
-            <p className="text-muted small">
-              Create professional bills, manage your products, and track billing history – all in one place.
-            </p>
-          </Col>
-
-          <Col xs={6} md={4} className="mb-3">
-            <h6 className="text-dark">Quick Links</h6>
-            <ul className="list-unstyled">
-              <li>
-                <Link to="/create-bill" className="text-decoration-none text-muted">Create Bill</Link>
-              </li>
-              <li>
-                <Link to="/products" className="text-decoration-none text-muted">Products</Link>
-              </li>
-              <li>
-                <Link to="/bill-history" className="text-decoration-none text-muted">Bill History</Link>
-              </li>
-              <li>
-                <Link to="/business-details" className="text-decoration-none text-muted">Business Details</Link>
-              </li>
-            </ul>
-          </Col>
-
-          <Col xs={6} md={4} className="mb-3">
-            <h6 className="text-dark">More</h6>
-            <ul className="list-unstyled">
-              <li>
-                <Link to="/about" className="text-decoration-none text-muted">About Us</Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="text-decoration-none text-muted">Privacy Policy</Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-decoration-none text-muted">Terms of Service</Link>
-              </li>
-              <li>
-                <Link to="/support" className="text-decoration-none text-muted">Contact Support</Link>
-              </li>
-            </ul>
-          </Col>
+          {footerLinks.map((link, index) => (
+            <Col xs={6} md={3} className="mb-2" key={index}>
+              <Link to={link.to} className="text-decoration-none text-muted d-block m-auto">
+                {link.label}
+              </Link>
+            </Col>
+          ))}
         </Row>
 
         <hr />

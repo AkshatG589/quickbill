@@ -1,0 +1,15 @@
+.hero-section {
+  height: 40vh; /* default */
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    height: 40vh; /* small screens */
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    height: 70vh; /* md and up */
+  }
+}

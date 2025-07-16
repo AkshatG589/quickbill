@@ -16,6 +16,7 @@ function BusinessDetails() {
     businessName: "",
     phone: "",
     address: "",
+    gstin: "",
   });
 
   const fetchBusinessInfo = async () => {
@@ -35,6 +36,7 @@ function BusinessDetails() {
           businessName: res.data.data.businessName || "",
           phone: res.data.data.phone || "",
           address: res.data.data.address || "",
+          gstin: res.data.data.gstin || "",
         });
       } else {
         setBusinessInfo(null);
@@ -95,6 +97,7 @@ function BusinessDetails() {
 
         <p><strong>Phone:</strong> {businessInfo.phone}</p>
         <p><strong>Address:</strong> {businessInfo.address}</p>
+        <p><strong>GSTIN:</strong> {businessInfo.gstin || "Not provided"}</p>
 
         <div className="text-center">
           <Button variant="primary" onClick={() => setShowModal(true)}>
@@ -110,7 +113,7 @@ function BusinessDetails() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Business Name</Form.Label>
               <Form.Control
                 type="text"
@@ -120,7 +123,7 @@ function BusinessDetails() {
               />
             </Form.Group>
 
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="text"
@@ -130,12 +133,22 @@ function BusinessDetails() {
               />
             </Form.Group>
 
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Address</Form.Label>
               <Form.Control
                 type="text"
                 name="address"
                 value={formData.address}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>GSTIN</Form.Label>
+              <Form.Control
+                type="text"
+                name="gstin"
+                value={formData.gstin}
                 onChange={handleChange}
               />
             </Form.Group>
