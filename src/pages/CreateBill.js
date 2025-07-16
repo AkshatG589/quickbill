@@ -49,7 +49,7 @@ function CreateBill() {
   const handleAddItem = () => {
     setBillItems([
       ...billItems,
-      { productName: "", price: 0, quantity: 0, total: 0 },
+      { productName: "", price: 0, quantity: 1, total: 0 },
     ]);
   };
 
@@ -167,7 +167,7 @@ function CreateBill() {
       type="number"
       min="1"
       placeholder="Qty"
-      value={item.quantity === 0 ? "0" : item.quantity}
+      value={item.quantity === 0 ? "1" : item.quantity}
       onChange={(e) =>
         handleItemChange(index, "quantity", e.target.value)
       }

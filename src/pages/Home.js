@@ -1,14 +1,31 @@
-import React from "react"; import { Button, Container, Row, Col, Card } from "react-bootstrap"; import { useNavigate } from "react-router-dom"; import { useUser } from "@clerk/clerk-react"; import { BsLightningChargeFill, BsBoxSeam, BsFileEarmarkText, BsShieldLock, BsCloudCheck, BsPersonBadge ,BsArrowRight} from "react-icons/bs";
-
+import React from "react"; 
+import { Button, Container, Row, Col, Card } from "react-bootstrap"; 
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react"; 
+import { BsLightningChargeFill, BsBoxSeam, BsFileEarmarkText, BsShieldLock, BsCloudCheck, BsPersonBadge ,BsArrowRight} from "react-icons/bs";
+import Footer from "../Components/Footer";
+import heroImage from "../Assets/Image/heroX.png";
+import history from "../Assets/Image/history.png";
+import product from "../Assets/Image/product.png";
+import bill from "../Assets/Image/create.png";
 function Home({ isLoggedIn }) { const navigate = useNavigate(); const { user } = useUser();
 
-return ( <div> {/* Hero Section */} 
+return ( <div className=""> {/* Hero Section */} 
 <div
-  className="bg-light d-flex justify-content-center align-items-center text-center"
-  style={{ height: "70vh" }}
+  className="d-flex justify-content-center align-items-center text-center bg-light"
+  style={{
+    width:"100vw",
+    height: "40vh",
+    backgroundImage: `url(${heroImage})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    borderRadius: "10px", 
+    padding: "10px",
+    backgroundPosition: "top center", // 👈 shifts image to show content-heavy
+  }}
 >
   <Container>
-    <h1 className="display-4 fw-bold">Welcome to QuickBills</h1>
+    <h1 className="display-4 fw-bold ">Welcome to QuickBills</h1>
     <p className="lead text-muted">
       Create professional bills, manage products and track history — fast and easy.
     </p>
@@ -81,30 +98,39 @@ return ( <div> {/* Hero Section */}
   </div>
 
   {/* Screenshots Section */}
-  <Container className="py-5">
-    <h2 className="text-center mb-4">Quick Glimpse</h2>
-    <Row className="g-4">
-      {["Products", "Create Bill", "History"].map((title, i) => (
+<Container className="py-5">
+  <h2 className="text-center mb-4">Quick Glimpse</h2>
+  <Row className="g-4">
+    {["Products", "Create Bill", "History"].map((title, i) => {
+      const imageMap = {
+        "Products": product,
+        "Create Bill": bill,
+        "History": history
+      };
+
+      return (
         <Col md={4} key={i}>
           <Card className="h-100 p-3 shadow-sm text-center">
-            <div className="bg-secondary text-white py-5 rounded">Screenshot Placeholder</div>
+            <div className="bg-light py-3 rounded">
+              <img
+                src={imageMap[title]}
+                alt={`${title} screenshot`}
+                style={{ maxWidth: "100%", maxHeight: "200px", objectFit: "contain" }}
+              />
+            </div>
             <Card.Body>
               <Card.Title>{title} Page</Card.Title>
               <Card.Text>Take control of your {title.toLowerCase()}.</Card.Text>
             </Card.Body>
           </Card>
         </Col>
-      ))}
-    </Row>
-  </Container>
+      );
+    })}
+  </Row>
+</Container>
 
   {/* Contact / Footer */}
-  <div className="bg-dark text-white text-center py-4">
-    <Container>
-      <p className="mb-1">Have questions? Contact us at quickbills@gmail.com</p>
-      <small>&copy; {new Date().getFullYear()} QuickBills. All rights reserved.</small>
-    </Container>
-  </div>
+  <Footer />
 </div>
 
 ); }

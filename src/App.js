@@ -7,6 +7,7 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import BusinessDetails from "./pages/BusinessDetails";
 import NavBar from "./Components/NavBar";
+//import Footer from "./Components/Footer";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 function App() {
@@ -33,11 +34,12 @@ function App() {
       <SignedOut>
         <Routes>
           <Route path="/" element={<Home isLoggedIn={false} />} />
-          <Route path="/sign-in" element={<SignInPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
-
-          {/* Any other route redirects to sign-in */}
-          <Route path="*" element={<Navigate to="/sign-in" />} />
+          <Route path="/sign-in/*" element={<SignInPage />} />
+          <Route path="/sign-up/*" element={<SignUpPage />} />
+          <Route path="/create-bill" element={<Navigate to="/sign-in" />} />
+          <Route path="/bill-history" element={<Navigate to="/sign-in" />} />
+          <Route path="/products" element={<Navigate to="/sign-in" />} />
+          <Route path="/business-details" element={<Navigate to="/sign-in" />} />
         </Routes>
       </SignedOut>
     </div>
