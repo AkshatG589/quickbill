@@ -7,16 +7,34 @@ const { requireAuth } = require("@clerk/express");
 router.post("/add", requireAuth(), async (req, res) => {
   try {
     const userId = req.auth.userId;
-    const { businessName, logoUrl, gstin, phone, address } = req.body;
+    const { businessName, gstin, phone, address } = req.body;
 
+    // Validate required fields
     if (!businessName || !phone || !address) {
       return res.status(400).json({ error: "Please fill all required fields" });
+    }
+
+    // Check for duplicate businessName (case-insensitive)
+    const existingBusiness = await BusinessInfo.findOne({
+      businessName: { $regex: new RegExp(`^${businessName}$`, "i") },
+    });
+    if (existingBusiness) {
+      return res.status(400).json({ error: "Business name already exists" });
+    }
+
+    // Check for duplicate gstin if provided (case-insensitive)
+    if (gstin) {
+      const existingGSTIN = await BusinessInfo.findOne({
+        gstin: { $regex: new RegExp(`^${gstin}$`, "i") },
+      });
+      if (existingGSTIN) {
+        return res.status(400).json({ error: "GSTIN already exists" });
+      }
     }
 
     const newInfo = new BusinessInfo({
       userId,
       businessName,
-      logoUrl,
       gstin,
       phone,
       address,
@@ -56,11 +74,41 @@ router.get("/get", requireAuth(), async (req, res) => {
 router.put("/update", requireAuth(), async (req, res) => {
   try {
     const userId = req.auth.userId;
-    const { businessName, logoUrl, gstNumber, phone, address } = req.body;
+    const { businessName, gstin, phone, address } = req.body;
+    console.log(gstin)
+    if (!businessName || !phone || !address) {
+      return res.status(400).json({ success: false, message: "Please fill all required fields" });
+    }
+
+    // Convert to lowercase for case-insensitive uniqueness check
+    const businessNameLower = businessName.toLowerCase();
+    const gstinLower = gstin?.toLowerCase();
+
+    // Check for duplicate business name (case-insensitive) for other users
+    const existingName = await BusinessInfo.findOne({
+      userId: { $ne: userId },
+      businessName: { $regex: new RegExp(`^${businessName}$`, "i") }
+    });
+
+    if (existingName) {
+      return res.status(409).json({ success: false, message: "Business name already exists" });
+    }
+
+    // Check for duplicate GSTIN (case-insensitive) if provided
+    if (gstin) {
+      const existingGstin = await BusinessInfo.findOne({
+        userId: { $ne: userId },
+        gstin: { $regex: new RegExp(`^${gstin}$`, "i") }
+      });
+
+      if (existingGstin) {
+        return res.status(409).json({ success: false, message: "GSTIN already exists" });
+      }
+    }
 
     const updatedInfo = await BusinessInfo.findOneAndUpdate(
       { userId },
-      { businessName, logoUrl, gstNumber, phone, address },
+      { businessName, gstin, phone, address },
       { new: true, runValidators: true }
     );
 
