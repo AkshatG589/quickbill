@@ -14,7 +14,7 @@ const BillHistory = new mongoose.Schema(
 
     // Optional customer info
     customerName: { type: String, default: "" },
-    customerPhone: { type: String, default: "" },
+    customerMobile: { type: String, default: "" },
 
     // Products array
     products: [BillProduct],

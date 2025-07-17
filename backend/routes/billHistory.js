@@ -25,7 +25,7 @@ router.post("/add", requireAuth(), async (req, res) => {
       discount,
       grandTotal,
       customerName,
-      customerPhone,
+      customerMobile,
       gstPercent,
       gstAmount
     } = req.body;
