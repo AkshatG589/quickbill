@@ -155,7 +155,7 @@ function CreateBill() {
           <div className="mb-4 p-3 border rounded bg-light">
             <Row className="gy-3">
               <Col md={6}>
-                <Form.Label>Customer Name</Form.Label>
+                <Form.Label><strong>Customer Name</strong></Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter customer name"
@@ -164,7 +164,7 @@ function CreateBill() {
                 />
               </Col>
               <Col md={6}>
-                <Form.Label>Customer Mobile</Form.Label>
+                <Form.Label><strong>Customer Mobile</strong></Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter mobile number"
@@ -175,59 +175,76 @@ function CreateBill() {
             </Row>
           </div>
 
-          {/* Products Form */}
-          {billItems.map((item, index) => (
-            <div key={index} className="border p-3 mb-3 rounded shadow-sm bg-light">
-              <Row className="gy-2 gx-3">
-                <Col xs={12} md={4}>
-                  <Form.Control
-                    list="productList"
-                    placeholder="Product name"
-                    value={item.productName}
-                    onChange={(e) =>
-                      handleItemChange(index, "productName", e.target.value)
-                    }
-                  />
-                  <datalist id="productList">
-                    {products.map((p) => (
-                      <option key={p._id} value={p.name} />
-                    ))}
-                  </datalist>
-                </Col>
-                <Col xs={6} md={2}>
-                  <Form.Control
-                    type="number"
-                    placeholder="Price"
-                    value={item.price || ""}
-                    onChange={(e) =>
-                      handleItemChange(index, "price", e.target.value)
-                    }
-                  />
-                </Col>
-                <Col xs={6} md={2}>
-                  <Form.Control
-                    type="number"
-                    min="1"
-                    placeholder="Qty"
-                    value={item.quantity || 1}
-                    onChange={(e) =>
-                      handleItemChange(index, "quantity", e.target.value)
-                    }
-                  />
-                </Col>
-                <Col xs={6} md={2}>
-                  <span className="fw-bold d-flex align-items-center h-100">
-                    ₹{Number(item.total).toLocaleString("en-IN")}
-                  </span>
-                </Col>
-                <Col xs={6} md={2} className="text-end">
-                  <Button variant="danger" onClick={() => handleRemoveItem(index)}>
-                    <BiTrash />
-                  </Button>
-                </Col>
-              </Row>
-            </div>
+{/* Products Form */}
+{billItems.length > 0 && (
+  <div className="px-2 mb-2">
+    <Row className="fw-bold text-secondary mb-1 d-none d-md-flex">
+      <Col md={4}>Product Name</Col>
+      <Col md={2}>Price</Col>
+      <Col md={2}>Quantity</Col>
+      <Col md={2}>Total</Col>
+      <Col md={2}></Col>
+    </Row>
+  </div>
+)}
+
+{billItems.map((item, index) => (
+  <div key={index} className="border p-3 mb-3 rounded shadow-sm bg-light">
+    <Row className="gy-2 gx-3">
+      <Col xs={12} md={4}>
+        <Form.Label className="d-md-none">
+        <strong>Product Name</strong></Form.Label>
+        <Form.Control
+          list="productList"
+          placeholder="Product name"
+          value={item.productName}
+          onChange={(e) =>
+            handleItemChange(index, "productName", e.target.value)
+          }
+        />
+        <datalist id="productList">
+          {products.map((p) => (
+            <option key={p._id} value={p.name} />
           ))}
+        </datalist>
+      </Col>
+      <Col xs={6} md={2}>
+        <Form.Label className="d-md-none"><strong>Price</strong></Form.Label>
+        <Form.Control
+          type="number"
+          placeholder="Price"
+          value={item.price || ""}
+          onChange={(e) =>
+            handleItemChange(index, "price", e.target.value)
+          }
+        />
+      </Col>
+      <Col xs={6} md={2}>
+        <Form.Label className="d-md-none"><strong>Quantity</strong></Form.Label>
+        <Form.Control
+          type="number"
+          min="1"
+          placeholder="Qty"
+          value={item.quantity || 1}
+          onChange={(e) =>
+            handleItemChange(index, "quantity", e.target.value)
+          }
+        />
+      </Col>
+      <Col xs={6} md={2}>
+        <Form.Label className="d-md-none"><strong>Total</strong></Form.Label>
+        <span className="fw-bold d-flex align-items-center h-100">
+          ₹{Number(item.total).toLocaleString("en-IN")}
+        </span>
+      </Col>
+      <Col xs={6} md={2} className="text-end">
+        <Button variant="danger" onClick={() => handleRemoveItem(index)}>
+          <BiTrash />
+        </Button>
+      </Col>
+    </Row>
+  </div>
+))}
 
           <div className="mb-3 text-center">
             <Button onClick={handleAddItem} variant="outline-primary">
