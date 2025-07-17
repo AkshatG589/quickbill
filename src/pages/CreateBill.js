@@ -14,7 +14,13 @@ function CreateBill() {
   const [products, setProducts] = useState([]);
   const [billItems, setBillItems] = useState([]);
   const [showForm, setShowForm] = useState(false);
+
+  // New State
+  const [customerName, setCustomerName] = useState("");
+  const [customerMobile, setCustomerMobile] = useState("");
   const [discount, setDiscount] = useState("");
+  const [gstPercent, setGstPercent] = useState("");
+  const [gstAmount, setGstAmount] = useState("");
 
   useEffect(() => {
     fetchBusiness();
@@ -70,9 +76,9 @@ function CreateBill() {
       }
     } else if (field === "price") {
       items[index].price = parseFloat(value);
-      items[index].total = items[index].price * (items[index].quantity);
+      items[index].total = items[index].price * items[index].quantity;
     } else if (field === "quantity") {
-      const qty = parseInt(value) 
+      const qty = parseInt(value);
       items[index].quantity = qty;
       items[index].total = items[index].price * qty;
     }
@@ -81,7 +87,22 @@ function CreateBill() {
 
   const subtotal = billItems.reduce((sum, item) => sum + item.total, 0);
   const discountValue = parseFloat(discount) || 0;
-  const grandTotal = subtotal - discountValue;
+
+  // Handle GST logic
+  useEffect(() => {
+    const subMinusDiscount = subtotal - discountValue;
+    if (gstPercent && !gstAmount) {
+      const calculated = (subMinusDiscount * parseFloat(gstPercent)) / 100;
+      setGstAmount(calculated.toFixed(2));
+    } else if (gstAmount && !gstPercent) {
+      const calculated = (parseFloat(gstAmount) * 100) / subMinusDiscount;
+      setGstPercent(calculated.toFixed(2));
+    }
+    // eslint-disable-next-line
+  }, [gstPercent, gstAmount, subtotal, discountValue]);
+
+  const gstVal = parseFloat(gstAmount) || 0;
+  const grandTotal = subtotal - discountValue + gstVal;
 
   const generateInvoiceNo = () => `INV-${Date.now()}`;
 
@@ -93,6 +114,10 @@ function CreateBill() {
       discount: discountValue,
       subtotal,
       grandTotal,
+      customerName,
+      customerMobile,
+      gstPercent: gstPercent ? parseFloat(gstPercent) : undefined,
+      gstAmount: gstVal || undefined,
     };
 
     try {
@@ -126,73 +151,81 @@ function CreateBill() {
         </div>
       ) : (
         <>
+          {/* Customer Info */}
+          <div className="mb-4 p-3 border rounded bg-light">
+            <Row className="gy-3">
+              <Col md={6}>
+                <Form.Label>Customer Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter customer name"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                />
+              </Col>
+              <Col md={6}>
+                <Form.Label>Customer Mobile</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter mobile number"
+                  value={customerMobile}
+                  onChange={(e) => setCustomerMobile(e.target.value)}
+                />
+              </Col>
+            </Row>
+          </div>
+
+          {/* Products Form */}
           {billItems.map((item, index) => (
             <div key={index} className="border p-3 mb-3 rounded shadow-sm bg-light">
-<Row className="gy-2 gx-3">
-  {/* Product */}
-  <Col xs={12} md={4}>
-    <div className="d-block d-md-none fw-bold mb-1">Product</div>
-    <Form.Control
-      list="productList"
-      placeholder="Product name"
-      value={item.productName}
-      onChange={(e) =>
-        handleItemChange(index, "productName", e.target.value)
-      }
-    />
-    <datalist id="productList">
-      {products.map((p) => (
-        <option key={p._id} value={p.name} />
-      ))}
-    </datalist>
-  </Col>
-
-  {/* Price */}
-  <Col xs={6} md={2}>
-    <div className="d-block d-md-none fw-bold mb-1">Price</div>
-    <Form.Control
-      type="number"
-      placeholder="Price"
-      value={item.price === 0 ? "" : item.price}
-      onChange={(e) =>
-        handleItemChange(index, "price", e.target.value)
-      }
-    />
-  </Col>
-
-  {/* Quantity */}
-  <Col xs={6} md={2}>
-    <div className="d-block d-md-none fw-bold mb-1">Quantity</div>
-    <Form.Control
-      type="number"
-      min="1"
-      placeholder="Qty"
-      value={item.quantity === 0 ? "1" : item.quantity}
-      onChange={(e) =>
-        handleItemChange(index, "quantity", e.target.value)
-      }
-      onBlur={() => {
-        const items = [...billItems];
-        items[index].touched = true;
-        setBillItems(items);
-      }}
-    />
-  </Col>
-
-  {/* Total */}
-  <Col xs={6} md={2}>
-    <div className="d-block d-md-none fw-bold mb-1">Total</div>
-    <span className="fw-bold d-flex align-items-center h-100">₹{Number(item.total).toLocaleString("en-IN")}
-    </span>
-  </Col>
-
-  {/* Delete */}
-  <Col xs={6} md={2} className="text-end">
-    <Button variant="danger" onClick={() => handleRemoveItem(index)}>
-      <BiTrash />
-    </Button>
-  </Col>
-</Row>
+              <Row className="gy-2 gx-3">
+                <Col xs={12} md={4}>
+                  <Form.Control
+                    list="productList"
+                    placeholder="Product name"
+                    value={item.productName}
+                    onChange={(e) =>
+                      handleItemChange(index, "productName", e.target.value)
+                    }
+                  />
+                  <datalist id="productList">
+                    {products.map((p) => (
+                      <option key={p._id} value={p.name} />
+                    ))}
+                  </datalist>
+                </Col>
+                <Col xs={6} md={2}>
+                  <Form.Control
+                    type="number"
+                    placeholder="Price"
+                    value={item.price || ""}
+                    onChange={(e) =>
+                      handleItemChange(index, "price", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col xs={6} md={2}>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    placeholder="Qty"
+                    value={item.quantity || 1}
+                    onChange={(e) =>
+                      handleItemChange(index, "quantity", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col xs={6} md={2}>
+                  <span className="fw-bold d-flex align-items-center h-100">
+                    ₹{Number(item.total).toLocaleString("en-IN")}
+                  </span>
+                </Col>
+                <Col xs={6} md={2} className="text-end">
+                  <Button variant="danger" onClick={() => handleRemoveItem(index)}>
+                    <BiTrash />
+                  </Button>
+                </Col>
+              </Row>
             </div>
           ))}
 
@@ -203,24 +236,62 @@ function CreateBill() {
           </div>
 
           {/* Bill Summary */}
-          <div className="border p-3 rounded bg-light">
-            <h5 className="fw-bold mb-3">Bill Summary</h5>
-            <p>Subtotal: ₹{Number(subtotal).toLocaleString("en-IN")}</p>
-            <InputGroup className="mb-2">
-              <InputGroup.Text>Discount</InputGroup.Text>
-              <Form.Control
-                type="number"
-                min="0"
-                step="any"
-                placeholder="Enter discount"
-                value={discount}
-                onChange={(e) => setDiscount(e.target.value)}
-              />
-            </InputGroup>
-            <h6 className="fw-bold">Total: ₹{Number(grandTotal).toLocaleString("en-IN")}</h6>
-          </div>
+<div className="border p-3 rounded bg-light">
+  <h5 className="fw-bold mb-3">Bill Summary</h5>
 
-          {/* Save + Preview */}
+  {/* GST Section */}
+  <InputGroup className="mb-2">
+    <InputGroup.Text>GST %</InputGroup.Text>
+    <Form.Control
+      type="number"
+      min="0"
+      step="any"
+      placeholder="Enter GST %"
+      value={gstPercent}
+      onChange={(e) => {
+        setGstPercent(e.target.value);
+        setGstAmount(""); // Clear manual GST if percentage is set
+      }}
+    />
+  </InputGroup>
+
+  <InputGroup className="mb-2">
+    <InputGroup.Text>GST Amount</InputGroup.Text>
+    <Form.Control
+      type="number"
+      min="0"
+      step="any"
+      placeholder="Or enter GST ₹ amount"
+      value={gstAmount}
+      onChange={(e) => {
+        setGstAmount(e.target.value);
+        setGstPercent(""); // Clear percentage if amount is set
+      }}
+    />
+  </InputGroup>
+
+  {/* Subtotal (pre-GST, pre-discount) */}
+  <p>Subtotal: ₹{Number(subtotal).toLocaleString("en-IN")}</p>
+
+  {/* Discount Section */}
+  <InputGroup className="mb-2">
+    <InputGroup.Text>Discount</InputGroup.Text>
+    <Form.Control
+      type="number"
+      min="0"
+      step="any"
+      placeholder="Enter discount"
+      value={discount}
+      onChange={(e) => setDiscount(e.target.value)}
+    />
+  </InputGroup>
+
+  {/* Final Grand Total */}
+  <h6 className="fw-bold mt-3">
+    Grand Total: ₹{Number(grandTotal).toLocaleString("en-IN")}
+  </h6>
+</div>
+
           <div className="d-flex justify-items-center justify-content-between my-4">
             <Button
               variant="dark"
@@ -237,7 +308,11 @@ function CreateBill() {
                 products: billItems,
                 discount: discountValue,
                 subtotal,
+                gstPercent,
+                gstAmount,
                 grandTotal,
+                customerName,
+                customerMobile,
               }}
             />
           </div>

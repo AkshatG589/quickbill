@@ -218,7 +218,7 @@ function Products() {
       ) : (
         <div className="row">
           {filteredProducts.map((product) => (
-            <div className="col-12 col-md-10 mb-4 m-auto" key={product._id}>
+            <div className="col-12 col-md-6 mb-4 m-auto" key={product._id}>
               <div className="card shadow p-3 rounded-4">
                 <div className="d-flex justify-content-between align-items-start">
                   <h5 className="fw-bold">{product.name}</h5>

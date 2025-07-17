@@ -25,7 +25,7 @@ router.post("/add", requireAuth(), async (req, res) => {
       discount,
       grandTotal,
       customerName,
-      customerMobile,
+      customerPhone,
       gstPercent,
       gstAmount
     } = req.body;
@@ -38,9 +38,13 @@ router.post("/add", requireAuth(), async (req, res) => {
       return res.status(400).json({ success: false, message: "Required fields missing" });
     }
 
-    // Optional validation for GST
-    if ((gstPercent && !gstAmount) || (!gstPercent && gstAmount)) {
-      return res.status(400).json({ success: false, message: "Both GST percent and amount should be provided if using GST." });
+    // GST optional check: If one is sent, the other must also be sent
+    if ((gstPercent !== undefined && gstAmount === undefined) || 
+        (gstAmount !== undefined && gstPercent === undefined)) {
+      return res.status(400).json({
+        success: false,
+        message: "Both GST percent and GST amount must be provided if using GST."
+      });
     }
 
     const newBill = new BillHistory({

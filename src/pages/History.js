@@ -97,8 +97,8 @@ function History() {
         </div>
       ) : (
         Object.entries(groupedBills).map(([date, billsOfDay]) => (
-          <div key={date} className="mb-4">
-            <h6 className="mb-3">
+          <div key={date} className="">
+            <h6 className="mb-3 border py-2 bg-light px-1">
               {date}{" "}
               <Badge bg="secondary">
                 {billsOfDay.length} bill{billsOfDay.length > 1 ? "s" : ""}
@@ -155,5 +155,28 @@ function History() {
     </div>
   );
 }
-
+/*
+bill={{
+                invoiceNo: generateInvoiceNo(),
+                products: billItems,
+                discount: discountValue,
+                subtotal,
+                gstPercent,
+                gstAmount,
+                grandTotal,
+                customerName,
+                customerMobile,
+              }}
+bill={{
+                invoiceNo: generateInvoiceNo(),
+                products: billItems,
+                discount: discountValue,
+                subtotal,
+                gstPercent,
+                gstAmount,
+                grandTotal,
+                customerName,
+                customerMobile,
+              }}
+*/
 export default History;

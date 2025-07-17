@@ -22,7 +22,11 @@ const BillHistory = new mongoose.Schema(
     // Pricing info
     subtotal: { type: Number, required: true },   // Before discount
     discount: { type: Number, default: 0 },       // Flat discount
-    gst: { type: Number, default: 0 },            // Optional GST on total amount
+
+    // GST info (frontend-calculated)
+    gstPercent: { type: Number, default: 0 },     // e.g., 18 for 18%
+    gstAmount: { type: Number, default: 0 },      // e.g., ₹90.00
+
     grandTotal: { type: Number, required: true }, // After discount and GST
   },
   { timestamps: true }

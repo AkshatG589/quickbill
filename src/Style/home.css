@@ -10,6 +10,6 @@
 
 @media (min-width: 768px) {
   .hero-section {
-    height: 70vh; /* md and up */
+    height: 80vh; /* md and up */
   }
 }

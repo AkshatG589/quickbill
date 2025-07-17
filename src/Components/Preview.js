@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import html2canvas from "html2canvas";
 import { Button, Modal } from "react-bootstrap";
 import moment from "moment";
-
 function Preview({ business, bill }) {
   const invoiceRef = useRef();
   const [showModal, setShowModal] = React.useState(false);
@@ -27,15 +26,18 @@ function Preview({ business, bill }) {
   const subtotal = bill?.subtotal || 0;
   const discount = bill?.discount || 0;
   const grandTotal = bill?.grandTotal || 0;
+  const gstPercent = bill?.gstPercent || "";
+  const gstAmount = bill?.gstAmount || "";
+
+  const customerName = bill?.customerName || "";
+  const customerPhone = bill?.customerMobile || "";
 
   return (
     <>
-      {/* ✅ View Button */}
       <Button variant="outline-dark" size="sm" onClick={() => setShowModal(true)}>
         <i className="bi bi-eye"></i> View
       </Button>
 
-      {/* ✅ Single Modal for Preview & Download */}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>Invoice Preview</Modal.Title>
@@ -48,12 +50,16 @@ function Preview({ business, bill }) {
               <h4 className="fw-bold">{businessName}</h4>
               <div className="text-muted">{address}</div>
               {gstin && <div className="text-muted">GSTIN: {gstin}</div>}
-              <div className="text-muted">Phone: {phone}</div>
+              <div className="text-muted">{phone}</div>
             </div>
 
             <hr />
 
             {/* Bill Info */}
+            {customerName && <div className="mb-2">              <strong>Customer Name: </strong> {customerName}</div>}
+            
+            {customerPhone && <div className="mb-2"><strong>Customer Number: </strong>{customerPhone}</div>}
+            
             <div className="mb-2">
               <strong>Bill No:</strong> {invoiceNo}
             </div>
@@ -61,42 +67,50 @@ function Preview({ business, bill }) {
               <strong>Date:</strong> {date}
             </div>
 
-            {/* Product Table */}
+            {/* Table */}
             <table className="table" style={{ borderCollapse: "collapse", border: "2px solid #000" }}>
               <thead>
                 <tr>
-                  <th style={{ border: "0.5px solid #000", backgroundColor: "#f2f2f2" }}>Item</th>
-                  <th style={{ border: "0.5px solid #000", backgroundColor: "#f2f2f2" }}>Price</th>
-                  <th style={{ border: "0.5px solid #000", backgroundColor: "#f2f2f2" }}>Qty</th>
-                  <th style={{ border: "0.5px solid #000", backgroundColor: "#f2f2f2" }}>Total</th>
+                  <th style={thStyle}>Item</th>
+                  <th style={thStyle}>Price</th>
+                  <th style={thStyle}>Qty</th>
+                  <th style={thStyle}>Total</th>
                 </tr>
               </thead>
               <tbody>
                 {products.map((p, i) => (
                   <tr key={p._id || i}>
-                    <td style={{ border: "0.5px solid #000" }}>{p.productName}</td>
-                    <td style={{ border: "0.5px solid #000" }}>₹{Number(p.price).toLocaleString("en-IN")}</td>
-                    <td style={{ border: "0.5px solid #000" }}>{p.quantity}</td>
-                    <td style={{ border: "0.5px solid #000" }}>₹{Number(p.total).toLocaleString("en-IN")}</td>
+                    <td style={tdStyle}>{p.productName}</td>
+                    <td style={tdStyle}>₹{Number(p.price).toLocaleString("en-IN")}</td>
+                    <td style={tdStyle}>{p.quantity}</td>
+                    <td style={tdStyle}>₹{Number(p.total).toLocaleString("en-IN")}</td>
                   </tr>
                 ))}
                 <tr>
-                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>Subtotal:</td>
-                  <td style={{ border: "0.5px solid #000" }}>₹{Number(subtotal).toLocaleString("en-IN")}</td>
+                  <td colSpan="3" style={tdRightStyle}>Subtotal:</td>
+                  <td style={tdStyle}>₹{Number(subtotal).toLocaleString("en-IN")}</td>
                 </tr>
+                {(gstPercent || gstAmount) && (
+                  <tr>
+                    <td colSpan="3" style={tdRightStyle}>
+                      <strong>GST {gstPercent ? `(${gstPercent}%)` : ""}:</strong>
+                    </td>
+                    <td style={tdStyle}>₹{Number(gstAmount || (subtotal * gstPercent / 100)).toLocaleString("en-IN")}</td>
+                  </tr>
+                )}
                 <tr>
-                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>
+                  <td colSpan="3" style={tdRightStyle}>
                     <strong>Discount:</strong>
                   </td>
-                  <td style={{ border: "0.5px solid #000", color: "green", fontWeight: "bold" }}>
+                  <td style={{ ...tdStyle, color: "green", fontWeight: "bold" }}>
                     ₹{Number(discount).toLocaleString("en-IN")}
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-start" colSpan="3" style={{ border: "0.5px solid #000", textAlign: "right" }}>
+                  <td colSpan="3" style={tdRightStyle}>
                     <strong>Total:</strong>
                   </td>
-                  <td style={{ border: "0.5px solid #000", fontWeight: "bold" }}>
+                  <td style={{ ...tdStyle, fontWeight: "bold" }}>
                     ₹{Number(grandTotal).toLocaleString("en-IN")}
                   </td>
                 </tr>
@@ -114,5 +128,18 @@ function Preview({ business, bill }) {
     </>
   );
 }
+
+// Reusable styles
+const thStyle = {
+  border: "0.5px solid #000",
+  backgroundColor: "#f2f2f2"
+};
+const tdStyle = {
+  border: "0.5px solid #000"
+};
+const tdRightStyle = {
+  ...tdStyle,
+  textAlign: "right"
+};
 
 export default Preview;
