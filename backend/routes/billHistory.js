@@ -23,14 +23,24 @@ router.post("/add", requireAuth(), async (req, res) => {
       products,
       subtotal,
       discount,
-      grandTotal
+      grandTotal,
+      customerName,
+      customerMobile,
+      gstPercent,
+      gstAmount
     } = req.body;
 
+    // Basic required fields check
     if (
       !invoiceNo || !products || products.length === 0 ||
       subtotal === undefined || grandTotal === undefined
     ) {
       return res.status(400).json({ success: false, message: "Required fields missing" });
+    }
+
+    // Optional validation for GST
+    if ((gstPercent && !gstAmount) || (!gstPercent && gstAmount)) {
+      return res.status(400).json({ success: false, message: "Both GST percent and amount should be provided if using GST." });
     }
 
     const newBill = new BillHistory({
@@ -40,13 +50,17 @@ router.post("/add", requireAuth(), async (req, res) => {
       subtotal,
       discount,
       grandTotal,
+      customerName,
+      customerMobile,
+      gstPercent,
+      gstAmount
     });
 
     await newBill.save();
 
     res.status(201).json({ success: true, message: "Bill saved", bill: newBill });
   } catch (err) {
-    console.error("Error adding bill:", err);
+    console.error("❌ Error adding bill:", err.message);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

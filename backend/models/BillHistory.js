@@ -11,10 +11,19 @@ const BillHistory = new mongoose.Schema(
   {
     userId: { type: String, required: true }, // Clerk user ID
     invoiceNo: { type: String, required: true, unique: true },
+
+    // Optional customer info
+    customerName: { type: String, default: "" },
+    customerPhone: { type: String, default: "" },
+
+    // Products array
     products: [BillProduct],
+
+    // Pricing info
     subtotal: { type: Number, required: true },   // Before discount
     discount: { type: Number, default: 0 },       // Flat discount
-    grandTotal: { type: Number, required: true }, // After discount
+    gst: { type: Number, default: 0 },            // Optional GST on total amount
+    grandTotal: { type: Number, required: true }, // After discount and GST
   },
   { timestamps: true }
 );
