@@ -87,19 +87,19 @@ function Preview({ business, bill }) {
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan="3" style={tdRightStyle}>Subtotal:</td>
+                  <td className="text-start" colSpan="3" style={tdRightStyle}>Subtotal:</td>
                   <td style={tdStyle}>₹{Number(subtotal).toLocaleString("en-IN")}</td>
                 </tr>
                 {(gstPercent || gstAmount) && (
                   <tr>
-                    <td colSpan="3" style={tdRightStyle}>
+                    <td className="text-start" colSpan="3" style={tdRightStyle}>
                       <strong>GST {gstPercent ? `(${gstPercent}%)` : ""}:</strong>
                     </td>
-                    <td style={tdStyle}>₹{Number(gstAmount || (subtotal * gstPercent / 100)).toLocaleString("en-IN")}</td>
+                    <td className="text-start" style={tdStyle}>₹{Number(gstAmount || (subtotal * gstPercent / 100)).toLocaleString("en-IN")}</td>
                   </tr>
                 )}
                 <tr>
-                  <td colSpan="3" style={tdRightStyle}>
+                  <td className="text-start" colSpan="3" style={tdRightStyle}>
                     <strong>Discount:</strong>
                   </td>
                   <td style={{ ...tdStyle, color: "green", fontWeight: "bold" }}>
@@ -107,7 +107,7 @@ function Preview({ business, bill }) {
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan="3" style={tdRightStyle}>
+                  <td className="text-start" colSpan="3" style={tdRightStyle}>
                     <strong>Total:</strong>
                   </td>
                   <td style={{ ...tdStyle, fontWeight: "bold" }}>
