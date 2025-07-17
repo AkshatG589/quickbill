@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Alert } from "react-bootstrap";
 import BusinessInfo from "../Components/BusinessInfo";
 
 function BusinessDetails() {
@@ -18,6 +18,8 @@ function BusinessDetails() {
     address: "",
     gstin: "",
   });
+
+  const [alert, setAlert] = useState({ message: "", variant: "" });
 
   const fetchBusinessInfo = async () => {
     if (!isLoaded) return;
@@ -64,11 +66,18 @@ function BusinessDetails() {
       });
 
       if (res.data.success) {
-        setShowModal(false);
+        setAlert({ message: "Business details updated successfully.", variant: "success" });
         fetchBusinessInfo();
+
+        setTimeout(() => {
+          setAlert({ message: "", variant: "" });
+          setShowModal(false);
+        }, 2000);
       }
     } catch (err) {
       console.error("Update failed:", err);
+      const msg = err.response?.data?.message || "Something went wrong. Please try again.";
+      setAlert({ message: msg, variant: "danger" });
     }
   };
 
@@ -112,6 +121,11 @@ function BusinessDetails() {
           <Modal.Title>Update Business Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {alert.message && (
+            <Alert variant={alert.variant} onClose={() => setAlert({ message: "", variant: "" })} dismissible>
+              {alert.message}
+            </Alert>
+          )}
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Business Name</Form.Label>
