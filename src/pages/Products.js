@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
+import SEO from "../Components/SEO";
 
 function Products() {
   const { getToken } = useAuth();
@@ -166,6 +167,13 @@ function Products() {
   );
 
   return (
+    <> 
+<SEO
+  title="QuickBills | Manage Products"
+  description="Add, edit, and manage your business products with QuickBills. Simplify inventory tracking and prepare for quick invoice creation."
+  url="https://quickbills-ak.vercel.app/products"
+  image="https://quickbills-ak.vercel.app/preview.png"
+/>
     <div className="container mt-4">
       <h2 className="text-center mb-4 fw-bold display-5">Products</h2>
 
@@ -286,6 +294,7 @@ function Products() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

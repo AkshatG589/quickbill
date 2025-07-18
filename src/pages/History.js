@@ -4,6 +4,7 @@ import { Badge } from "react-bootstrap";
 import Preview from "../Components/Preview";
 import moment from "moment";
 import { useAuth } from "@clerk/clerk-react";
+import SEO from "../Components/SEO";
 
 function History() {
   const { getToken } = useAuth();
@@ -64,6 +65,16 @@ function History() {
   }, {});
 
   return (
+    <> 
+<SEO
+  title="QuickBills | Billing History"
+  description="View all your previous invoices and billing history on QuickBills. Organized by date, searchable, and easily viewable as printable invoice previews."
+  path="/history"
+  ogTitle="QuickBills | Billing History"
+  ogDescription="Access and review all your past bills in one place. View invoice details and manage your business records easily with QuickBills."
+  twitterTitle="Billing History | QuickBills"
+  twitterDescription="Check and search your past bills and invoices instantly on QuickBills."
+/>
     <div className="container mt-4">
       <h4 className="fw-bold mb-4">Your Previous Bills</h4>
 
@@ -153,30 +164,7 @@ function History() {
         ))
       )}
     </div>
+        </>
   );
 }
-/*
-bill={{
-                invoiceNo: generateInvoiceNo(),
-                products: billItems,
-                discount: discountValue,
-                subtotal,
-                gstPercent,
-                gstAmount,
-                grandTotal,
-                customerName,
-                customerMobile,
-              }}
-bill={{
-                invoiceNo: generateInvoiceNo(),
-                products: billItems,
-                discount: discountValue,
-                subtotal,
-                gstPercent,
-                gstAmount,
-                grandTotal,
-                customerName,
-                customerMobile,
-              }}
-*/
 export default History;

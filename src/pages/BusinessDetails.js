@@ -3,6 +3,8 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import BusinessInfo from "../Components/BusinessInfo";
+import SEO from "../Components/SEO";
+
 
 function BusinessDetails() {
   const { isLoaded, getToken } = useAuth();
@@ -90,6 +92,12 @@ function BusinessDetails() {
   if (!businessInfo) return <BusinessInfo fetchBusinessInfo={fetchBusinessInfo} />;
 
   return (
+    <>
+      <SEO
+  title="QuickBills | Business Details"
+  description="View and update your business name, contact info, address, and GSTIN in one place. Ensure accurate details for your invoices on QuickBills."
+  url="https://quickbills-ak.vercel.app/business"
+/>
     <div className="container mt-5 d-flex justify-content-center">
       <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>
         <h3 className="text-center mb-4">Business Details</h3>
@@ -174,6 +182,7 @@ function BusinessDetails() {
         </Modal.Footer>
       </Modal>
     </div>
+      </>
   );
 }
 

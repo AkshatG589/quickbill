@@ -5,6 +5,7 @@ import { BsFileEarmarkPlus } from "react-icons/bs";
 import { BiTrash, BiPlusCircle, BiSave } from "react-icons/bi";
 import { useAuth } from "@clerk/clerk-react";
 import Preview from "../Components/Preview";
+import SEO from "../Components/SEO";
 
 const Host = process.env.REACT_APP_HOST;
 
@@ -140,6 +141,13 @@ function CreateBill() {
   };
 
   return (
+    <>  
+    <SEO
+  title="Create GST Invoice | QuickBills"
+  description="Add products, apply GST or discounts, and generate downloadable invoices instantly with QuickBills."
+  url="https://quickbills-ak.vercel.app/create"
+  image="https://quickbills-ak.vercel.app/preview.png"
+/>
     <div className="container mt-4">
       <h3 className="text-center fw-bold mb-4">Create a Bill</h3>
 
@@ -336,6 +344,7 @@ function CreateBill() {
         </>
       )}
     </div>
+    </>
   );
 }
 
