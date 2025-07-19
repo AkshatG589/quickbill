@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://quickbills-ak.vercel.app/</loc>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://quickbills-ak.vercel.app/products</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://quickbills-ak.vercel.app/create-bill</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://quickbills-ak.vercel.app/bill-history</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://quickbills-ak.vercel.app/business-details</loc>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://quickbills-ak.vercel.app/sign-in</loc>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://quickbills-ak.vercel.app/sign-up</loc>
+    <priority>0.50</priority>
+  </url>
+</urlset>
