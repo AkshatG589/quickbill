@@ -8,10 +8,12 @@ import SignUpPage from "./pages/SignUpPage";
 import BusinessDetails from "./pages/BusinessDetails";
 import NavBar from "./Components/NavBar";
 import NotFound from "./Components/NotFound";
+import usePageTracking from "./Components/usePageTracking"
 // import Footer from "./Components/Footer";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 function App() {
+  usePageTracking()
   return (
     <div>
       <NavBar />
