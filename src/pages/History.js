@@ -71,6 +71,7 @@ function History() {
   description="Review past invoices with QuickBills—search, filter by date or customer, view details, and download PDF copies of your GST‑compliant billing history."
   url="https://quickbills-ak.vercel.app/bill-history"
   image="https://quickbills-ak.vercel.app/preview.png"
+  pageType="WebPage"
 />
     <div className="container mt-4">
       <h4 className="fw-bold mb-4">Your Previous Bills</h4>

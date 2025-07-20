@@ -24,10 +24,13 @@ function Home({ isLoggedIn }) {
   const { user } = useUser();
 
   return (
-    <><SEO
-  title="QuickBills | GST Invoice Generator & Billing Management App"
+    <>
+<SEO
+  title="QuickBills | GST Invoice Generator & Billing Management"
   description="QuickBills helps you generate GST‑compliant invoices, manage inventory, track billing history, & download professional bills—all in one intuitive web app."
   url="https://quickbills-ak.vercel.app"
+  image="https://quickbills-ak.vercel.app/preview.png"
+  pageType="WebPage"
 />
 
     <div className="">

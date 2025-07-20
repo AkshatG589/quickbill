@@ -168,11 +168,12 @@ function Products() {
 
   return (
     <> 
-<SEO
+    <SEO
   title="QuickBills | Product Management for GST Billing & Inventory"
   description="Manage your product catalog with QuickBills—add, update, and organize GST‑ready items, track inventory levels, and streamline invoice creation."
   url="https://quickbills-ak.vercel.app/products"
   image="https://quickbills-ak.vercel.app/preview.png"
+  pageType="WebPage"
 />
     <div className="container mt-4">
       <h2 className="text-center mb-4 fw-bold display-5">Products</h2>

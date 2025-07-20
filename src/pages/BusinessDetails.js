@@ -93,11 +93,12 @@ function BusinessDetails() {
 
   return (
     <>
-<SEO
+      <SEO
   title="QuickBills | Update Business Info & GSTIN Details"
   description="QuickBills lets you manage your business profile—update name, contact info, address, and GSTIN. Keep your billing info accurate and compliant effortlessly."
   url="https://quickbills-ak.vercel.app/business-details"
   image="https://quickbills-ak.vercel.app/preview.png"
+  pageType="WebPage"
 />
     <div className="container mt-5 d-flex justify-content-center">
       <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>

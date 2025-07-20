@@ -147,6 +147,7 @@ function CreateBill() {
   description="Easily create GST‑compliant invoices with QuickBills—add products, adjust GST rates or discounts, preview in real time, and download PDF bills in seconds."
   url="https://quickbills-ak.vercel.app/create-bill"
   image="https://quickbills-ak.vercel.app/preview.png"
+  pageType="WebPage"
 />
     <div className="container mt-4">
       <h3 className="text-center fw-bold mb-4">Create a Bill</h3>
