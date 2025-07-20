@@ -12,7 +12,7 @@ import {
   BsPersonBadge,
   BsArrowRight,
 } from "react-icons/bs";
-import Footer from "../Components/Footer";
+//import Footer from "../Components/Footer";
 import history from "../Assets/Image/history.png";
 import product from "../Assets/Image/product.png";
 import bill from "../Assets/Image/create.png";
@@ -170,9 +170,6 @@ function Home({ isLoggedIn }) {
     })}
   </Row>
 </Container>
-
-      {/* Footer */}
-      <Footer />
     </div>
         </>
   );

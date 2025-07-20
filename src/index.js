@@ -9,6 +9,7 @@ import { HeadProvider } from 'react-head'; // ✅ import HeadProvider
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Footer from "./Components/Footer";
 
 const publishableKey = process.env.REACT_APP_PUBLIC_KEY;
 
@@ -19,6 +20,8 @@ root.render(
       <BrowserRouter>
         <HeadProvider> {/* ✅ Wrap app with HeadProvider */}
           <App />
+          {/* Footer */}
+          <Footer />
         </HeadProvider>
       </BrowserRouter>
     </ClerkProvider>
