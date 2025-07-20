@@ -1,7 +1,17 @@
 .hero-section {
-  height: 40vh; /* default */
+  height: 50vh; /* default */
 }
+/* HeroSection.css */
 
+.hero-section-bg {
+  width: 100vw;
+  background-image: url("../Assets/Image/heroX.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+  border-radius: 10px;
+  padding: 10px;
+}
 @media (max-width: 576px) {
   .hero-section {
     height: 40vh; /* small screens */

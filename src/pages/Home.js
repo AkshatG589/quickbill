@@ -13,7 +13,6 @@ import {
   BsArrowRight,
 } from "react-icons/bs";
 import Footer from "../Components/Footer";
-import heroImage from "../Assets/Image/heroX.png";
 import history from "../Assets/Image/history.png";
 import product from "../Assets/Image/product.png";
 import bill from "../Assets/Image/create.png";
@@ -36,16 +35,7 @@ function Home({ isLoggedIn }) {
     <div className="">
       {/* Hero Section */}
       <div
-        className="hero-section d-flex justify-content-center align-items-center text-center bg-light"
-        style={{
-          width: "100vw",
-          backgroundImage: `url(${heroImage})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          borderRadius: "10px",
-          padding: "10px",
-          backgroundPosition: "top center",
-        }}
+        className="hero-section hero-section-bg d-flex justify-content-center align-items-center text-center bg-light"
       >
         <Container>
           <h1 className="display-4 fw-bold">Welcome to QuickBills</h1>
@@ -121,43 +111,65 @@ function Home({ isLoggedIn }) {
         </Container>
       </div>
 
-      {/* Screenshots Section */}
+      {/* Screenshots Section */} 
       <Container className="py-5">
-        <h2 className="text-center mb-4">Quick Glimpse</h2>
-        <Row className="g-4">
-          {["Products", "Create Bill", "History"].map((title, i) => {
-            const imageMap = {
-              Products: product,
-              "Create Bill": bill,
-              History: history,
-            };
+  <h2 className="text-center mb-4">Quick Glimpse</h2>
+  <Row className="g-4">
+    {["Products", "Create Bill", "History"].map((title, i) => {
+      const imageMap = {
+        Products: product,
+        "Create Bill": bill,
+        History: history,
+      };
 
-            return (
-              <Col md={4} key={i}>
-                <Card className="h-100 p-3 shadow-sm text-center">
-                  <div className="bg-light py-3 rounded">
-                    <img
-                      src={imageMap[title]}
-                      alt={`${title} screenshot`}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-                  <Card.Body>
-                    <Card.Title>{title} Page</Card.Title>
-                    <Card.Text>
-                      Take control of your {title.toLowerCase()}.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-      </Container>
+      const routeMap = {
+        Products: "/products",
+        "Create Bill": "/create-bill",
+        History: "/bill-history",
+      };
+
+      const descriptionMap = {
+        Products: "Manage your product inventory with easy add, edit, and delete options.",
+        "Create Bill": "Quickly generate professional GST bills with itemized breakdowns.",
+        History: "View and track all your previously created bills by date and invoice.",
+      };
+
+      const buttonTextMap = {
+        Products: "Manage Products",
+        "Create Bill": "Start Billing",
+        History: "View Bill History",
+      };
+
+      return (
+        <Col md={4} key={i}>
+          <Card className="h-100 p-3 shadow-sm text-center">
+            <div className="bg-light py-3 rounded">
+              <img
+                src={imageMap[title]}
+                alt={`${title} screenshot`}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+            <Card.Body>
+              <Card.Title>{title} Page</Card.Title>
+              <Card.Text>{descriptionMap[title]}</Card.Text>
+              <button
+                className="btn btn-primary mt-2"
+                onClick={() => navigate(routeMap[title])}
+              >
+                {buttonTextMap[title]}
+              </button>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+    })}
+  </Row>
+</Container>
 
       {/* Footer */}
       <Footer />
