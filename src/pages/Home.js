@@ -152,6 +152,7 @@ function Home({ isLoggedIn }) {
                   maxHeight: "200px",
                   objectFit: "contain",
                 }}
+                loading="lazy" 
               />
             </div>
             <Card.Body>
