@@ -142,10 +142,10 @@ function CreateBill() {
 
   return (
     <>  
-    <SEO
-  title="Create GST Invoice | QuickBills"
-  description="Add products, apply GST or discounts, and generate downloadable invoices instantly with QuickBills."
-  url="https://quickbills-ak.vercel.app/create"
+<SEO
+  title="QuickBills | Create GST Invoice Instantly & Download PDF"
+  description="Easily create GST‑compliant invoices with QuickBills—add products, adjust GST rates or discounts, preview in real time, and download PDF bills in seconds."
+  url="https://quickbills-ak.vercel.app/create-bill"
   image="https://quickbills-ak.vercel.app/preview.png"
 />
     <div className="container mt-4">

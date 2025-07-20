@@ -169,8 +169,8 @@ function Products() {
   return (
     <> 
 <SEO
-  title="QuickBills | Manage Products"
-  description="Add, edit, and manage your business products with QuickBills. Simplify inventory tracking and prepare for quick invoice creation."
+  title="QuickBills | Product Management for GST Billing & Inventory"
+  description="Manage your product catalog with QuickBills—add, update, and organize GST‑ready items, track inventory levels, and streamline invoice creation."
   url="https://quickbills-ak.vercel.app/products"
   image="https://quickbills-ak.vercel.app/preview.png"
 />

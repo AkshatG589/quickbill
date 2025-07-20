@@ -66,14 +66,11 @@ function History() {
 
   return (
     <> 
-<SEO
-  title="QuickBills | Billing History"
-  description="View all your previous invoices and billing history on QuickBills. Organized by date, searchable, and easily viewable as printable invoice previews."
-  path="/history"
-  ogTitle="QuickBills | Billing History"
-  ogDescription="Access and review all your past bills in one place. View invoice details and manage your business records easily with QuickBills."
-  twitterTitle="Billing History | QuickBills"
-  twitterDescription="Check and search your past bills and invoices instantly on QuickBills."
+    <SEO
+  title="QuickBills | View & Download Billing History"
+  description="Review past invoices with QuickBills—search, filter by date or customer, view details, and download PDF copies of your GST‑compliant billing history."
+  url="https://quickbills-ak.vercel.app/bill-history"
+  image="https://quickbills-ak.vercel.app/preview.png"
 />
     <div className="container mt-4">
       <h4 className="fw-bold mb-4">Your Previous Bills</h4>
