@@ -265,6 +265,24 @@ function CreateBill() {
 <div className="border p-3 rounded bg-light">
   <h5 className="fw-bold mb-3">Bill Summary</h5>
 
+
+  {/* Subtotal (pre-GST, pre-discount) */}
+  <p>Subtotal: ₹{Number(subtotal).toLocaleString("en-IN")}</p>
+
+  {/* Discount Section */}
+  <InputGroup className="mb-2">
+    <InputGroup.Text>Discount</InputGroup.Text>
+    <Form.Control
+      type="number"
+      min="0"
+      step="any"
+      placeholder="Enter discount"
+      value={discount}
+      onChange={(e) => setDiscount(e.target.value)}
+    />
+  </InputGroup>
+  
+  
   {/* GST Section */}
   <InputGroup className="mb-2">
     <InputGroup.Text>GST %</InputGroup.Text>
@@ -295,23 +313,6 @@ function CreateBill() {
       }}
     />
   </InputGroup>
-
-  {/* Subtotal (pre-GST, pre-discount) */}
-  <p>Subtotal: ₹{Number(subtotal).toLocaleString("en-IN")}</p>
-
-  {/* Discount Section */}
-  <InputGroup className="mb-2">
-    <InputGroup.Text>Discount</InputGroup.Text>
-    <Form.Control
-      type="number"
-      min="0"
-      step="any"
-      placeholder="Enter discount"
-      value={discount}
-      onChange={(e) => setDiscount(e.target.value)}
-    />
-  </InputGroup>
-
   {/* Final Grand Total */}
   <h6 className="fw-bold mt-3">
     Grand Total: ₹{Number(grandTotal).toLocaleString("en-IN")}
