@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../Style/Footer.css"; // optional
+import "../Style/Footer.css";
 
 function Footer() {
   const footerLinks = [
@@ -19,10 +19,16 @@ function Footer() {
     { label: "Blog", to: "/blog" },
   ];
 
+  const externalLinks = [
+    { label: "GST Portal", url: "https://www.gst.gov.in/" },
+    { label: "MSME India", url: "https://msme.gov.in/" },
+    { label: "Invoicing Guide", url: "https://quickbooks.intuit.com/r/invoicing" },
+  ];
+
   return (
     <footer className="bg-light border-top py-4 mt-5 shadow-sm">
       <Container>
-        {/* Branding on Top */}
+        {/* Branding */}
         <div className="text-center mb-4">
           <h5 className="fw-bold">QuickBills</h5>
           <p className="text-muted small mb-0">
@@ -30,7 +36,7 @@ function Footer() {
           </p>
         </div>
 
-        {/* Responsive Links */}
+        {/* Internal Links */}
         <Row>
           {footerLinks.map((link, index) => (
             <Col xs={6} md={3} className="mb-2" key={index}>
@@ -40,6 +46,22 @@ function Footer() {
             </Col>
           ))}
         </Row>
+
+        {/* External Links */}
+        <div className="text-center mt-4">
+          <h6 className="fw-semibold">Resources</h6>
+          {externalLinks.map((ext, index) => (
+            <a
+              key={index}
+              href={ext.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-decoration-none text-muted mx-2 small d-inline-block"
+            >
+              {ext.label}
+            </a>
+          ))}
+        </div>
 
         <hr />
         <p className="text-center text-muted small mb-0">
