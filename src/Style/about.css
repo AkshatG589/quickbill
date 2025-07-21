@@ -1,0 +1,41 @@
+.about-me-section {
+  background-color: #f8f9fa;
+  padding: 3rem 0;
+}
+
+.about-me-section h2 {
+  font-size: 2rem;
+}
+
+.about-me-section img {
+  border: 3px solid #353535ff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+.about-me-section .btn-lg:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Quote styling */
+.quote-box {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.quote-icon {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  font-size: 3.5rem;
+  color: #0d6efd;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.quote-text {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #6c757d;
+  padding-left: 1.5rem;
+}
