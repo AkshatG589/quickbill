@@ -4,24 +4,33 @@ import { BsGithub, BsLinkedin, BsEnvelopeFill } from "react-icons/bs";
 import { SiLeetcode } from "react-icons/si";
 import myImage from "../Assets/Image/about-us2.PNG";
 import "../Style/about.css";
+import SEO from "../Components/SEO";
 
 function About() {
   return (
     <div className="about-me-section">
+      <SEO
+        title="QuickBills | About the Developer"
+        description="Learn more about Akshat Gupta, the passionate Full-Stack Developer behind QuickBills. Explore his journey, skills, and contact information."
+        url="https://quickbills-ak.vercel.app/about"
+        image="https://quickbills-ak.vercel.app/preview.png"
+        pageType="ProfilePage"
+      />
+
       <Container>
         <Row className="align-items-center">
           <Col md={5} className="mb-4 mb-md-0 text-center">
-<img
-  src={myImage}
-  alt="Developer"
-  className="img-fluid rounded-circle"
-  style={{
-    width: "250px",
-    height: "250px",
-    objectFit: "cover",
-    objectPosition: "top"
-  }}
-/>
+            <img
+              src={myImage}
+              alt="Developer"
+              className="img-fluid rounded-circle"
+              style={{
+                width: "250px",
+                height: "250px",
+                objectFit: "cover",
+                objectPosition: "top"
+              }}
+            />
           </Col>
 
           <Col md={7}>
