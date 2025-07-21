@@ -1,74 +1,102 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# 💼 QuickBills – GST Invoice Generator (Full Stack Project)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> _“Built entirely on mobile using MERN Stack + Clerk”_
 
-## Available Scripts
+QuickBills is a full-stack billing app that helps businesses generate professional GST-ready invoices, manage products, and track billing history with ease. Designed with responsiveness in mind, it’s accessible on any device.
 
-In the project directory, you can run:
+🚀 [Live Demo](https://quickbills-ak.vercel.app/) | 🛠️ [GitHub Repository](https://github.com/AkshatG589/quickbill)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ✨ Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- ✅ User Authentication (powered by Clerk)
+- 🧾 GST-compliant Invoice Generation
+- 📦 Product Management (Add, Edit, Search, Delete)
+- 📜 Bill History with date-wise grouping
+- 👁️ Live Preview of Bills before saving
+- 📱 Fully Responsive UI
+- 📄 Printable PDF-style format
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tech Stack
 
-### `npm run build`
+| Frontend           | Backend              | Auth     | Database |
+|--------------------|----------------------|----------|----------|
+| React + Bootstrap  | Node.js + Express.js | Clerk    | MongoDB  |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📸 Screenshots
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> Add screenshots here if desired using markdown:
+> `![Screenshot](./screens/screen1.png)`
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📂 Folder Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+quickbill/ ├── backend/             # Express.js backend │   ├── models/          # Mongoose models │   ├── routes/          # API routes (products, bills, etc.) │   └── index.js         # Server entry ├── src/                 # React frontend │   ├── Components/      # UI Components │   ├── pages/           # Page views (Home, CreateBill, History, etc.) │   └── App.js           # Main App
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🔧 Installation & Running Locally
 
-## Learn More
+```bash
+# Clone the repo
+git clone https://github.com/AkshatG589/quickbill
+cd quickbill
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Backend
+cd backend
+npm install
+npm run start
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Frontend
+cd ../
+npm install
+npm start
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+📚 Learning Resources
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+React Documentation
 
-### Making a Progressive Web App
+Express.js Guide
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+MongoDB Docs
 
-### Advanced Configuration
+Clerk Auth Docs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+🙌 Acknowledgements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# quickbill
->>>>>>> bf61353eb36517474dce4a910ddcc03832812ee6
+Built entirely on mobile device using GitHub mobile + Termux
+
+Powered by Clerk, MERN, and a lot of dedication
+
+
+
+---
+
+🔗 Links
+
+🔴 Live: https://quickbills-ak.vercel.app
+
+🧑‍💻 GitHub: github.com/AkshatG589/quickbill
+
+📬 Creator: Akshat Gupta
+
+
+
+---
+
+📃 License
+
+This project is licensed under the MIT License.
