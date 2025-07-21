@@ -59,7 +59,7 @@ function About() {
               </a>
 
               <a
-                href="https://github.com/AkshatG589/"
+                href="https://github.com/AkshatG589/quickbill"
                 target="_blank"
                 rel="noopener noreferrer"
               >
