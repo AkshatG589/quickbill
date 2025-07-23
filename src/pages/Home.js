@@ -17,7 +17,7 @@ import history from "../Assets/Image/history.png";
 import product from "../Assets/Image/product.png";
 import bill from "../Assets/Image/create.png";
 import "../Style/home.css";
-
+import Footer from "../Components/Footer";
 function Home({ isLoggedIn }) {
   const navigate = useNavigate();
   const { user } = useUser();
@@ -172,6 +172,8 @@ function Home({ isLoggedIn }) {
   </Row>
 </Container>
     </div>
+          {/* Footer */}
+      <Footer />
         </>
   );
 }

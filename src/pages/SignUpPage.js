@@ -1,6 +1,7 @@
 import React from 'react';
 import { SignUp } from '@clerk/clerk-react';
 import SEO from '../Components/SEO'; // adjust path if needed
+import Footer from "../Components/Footer";
 
 function SignUpPage() {
   return (
@@ -16,6 +17,7 @@ function SignUpPage() {
       <div className="d-flex justify-content-center align-items-center vh-100">
         <SignUp routing="path" path="/sign-up" />
       </div>
+    <Footer />
     </>
   );
 }

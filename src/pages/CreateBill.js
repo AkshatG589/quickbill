@@ -6,6 +6,7 @@ import { BiTrash, BiPlusCircle, BiSave } from "react-icons/bi";
 import { useAuth } from "@clerk/clerk-react";
 import Preview from "../Components/Preview";
 import SEO from "../Components/SEO";
+import Footer from "../Components/Footer";
 
 const Host = process.env.REACT_APP_HOST;
 
@@ -346,6 +347,7 @@ function CreateBill() {
         </>
       )}
     </div>
+            <Footer />
     </>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import SEO from "../Components/SEO";
+import Footer from "../Components/Footer";
 
 function Products() {
   const { getToken } = useAuth();
@@ -295,6 +296,7 @@ function Products() {
         </div>
       )}
     </div>
+    <Footer />
     </>
   );
 }

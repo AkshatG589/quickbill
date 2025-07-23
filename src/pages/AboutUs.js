@@ -5,9 +5,11 @@ import { SiLeetcode } from "react-icons/si";
 import myImage from "../Assets/Image/about-us2.PNG";
 import "../Style/about.css";
 import SEO from "../Components/SEO";
+import Footer from "../Components/Footer";
 
 function About() {
   return (
+    <>  
     <div className="about-me-section">
       <SEO
         title="QuickBills | About the Developer"
@@ -97,6 +99,8 @@ function About() {
         </Row>
       </Container>
     </div>
+    <Footer />
+    </>
   );
 }
 

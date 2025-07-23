@@ -1,6 +1,7 @@
 import React from 'react';
 import { SignIn } from '@clerk/clerk-react';
 import SEO from "../Components/SEO";
+import Footer from "../Components/Footer";
 
 function SignInPage() {
   return (
@@ -22,6 +23,7 @@ function SignInPage() {
       <div className="d-flex justify-content-center align-items-center vh-100">
         <SignIn routing="path" path="/sign-in" />
       </div>
+            <Footer />
     </>
   );
 }

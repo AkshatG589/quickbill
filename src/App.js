@@ -50,6 +50,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </SignedOut>
+
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import BusinessInfo from "../Components/BusinessInfo";
 import SEO from "../Components/SEO";
-
+import Footer from "../Components/Footer";
 
 function BusinessDetails() {
   const { isLoaded, getToken } = useAuth();
@@ -184,6 +184,7 @@ function BusinessDetails() {
         </Modal.Footer>
       </Modal>
     </div>
+        <Footer />
       </>
   );
 }

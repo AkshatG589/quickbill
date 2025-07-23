@@ -5,6 +5,7 @@ import Preview from "../Components/Preview";
 import moment from "moment";
 import { useAuth } from "@clerk/clerk-react";
 import SEO from "../Components/SEO";
+import Footer from "../Components/Footer";
 
 function History() {
   const { getToken } = useAuth();
@@ -162,6 +163,7 @@ function History() {
         ))
       )}
     </div>
+      <Footer />
         </>
   );
 }
