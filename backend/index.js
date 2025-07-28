@@ -12,6 +12,7 @@ const { clerkMiddleware } = require("@clerk/express"); // not lowercase
 const businessInfoRoute = require("./routes/businessInfo");
 const productRoute = require("./routes/product");
 const billHistory = require("./routes/billHistory");
+const adminRoutes = require("./routes/Admin");
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -25,7 +26,7 @@ app.use(clerkMiddleware({
 app.use("/api/business-info", businessInfoRoute);
 app.use("/api/products", productRoute);
 app.use("/api/bills", billHistory);
-
+app.use("/api/admin", adminRoutes);
 app.get('/', (req, res) => {
   res.send('Hello from Quick Bills backend!');
 });

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import CreateBill from "./pages/CreateBill";
 import History from "./pages/History";
@@ -7,14 +7,17 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import AboutUs from "./pages/AboutUs";
 import BusinessDetails from "./pages/BusinessDetails";
+import Admin from "./pages/Admin";
 import NavBar from "./Components/NavBar";
 import NotFound from "./Components/NotFound";
-import usePageTracking from "./Components/usePageTracking"
-// import Footer from "./Components/Footer";
+import usePageTracking from "./Components/usePageTracking";
+import useAdminCheck from "./hooks/useAdminCheck";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 function App() {
-  usePageTracking()
+  usePageTracking();
+  const { isAdmin, loading } = useAdminCheck();
+
   return (
     <div>
       <NavBar />
@@ -30,7 +33,13 @@ function App() {
           <Route path="/business-details" element={<BusinessDetails />} />
           <Route path="/sign-in" element={<Navigate to="/" />} />
           <Route path="/sign-up" element={<Navigate to="/" />} />
-          {/* Catch-all route for 404 */}
+
+          {/* Conditionally render admin route */}
+          {isAdmin && !loading && (
+            <Route path="/admin" element={<Admin />} />
+          )}
+
+          {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </SignedIn>
@@ -46,11 +55,10 @@ function App() {
           <Route path="/bill-history" element={<Navigate to="/sign-in" />} />
           <Route path="/products" element={<Navigate to="/sign-in" />} />
           <Route path="/business-details" element={<Navigate to="/sign-in" />} />
-          {/* Catch-all route for 404 */}
+          <Route path="/admin" element={<Navigate to="/sign-in" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </SignedOut>
-
     </div>
   );
 }

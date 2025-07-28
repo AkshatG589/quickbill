@@ -11,6 +11,10 @@
 # production
 /build
 
+#hide admin
+/backend/routes/Admin/
+/src/pages/Admin/
+/src/hooks
 # misc
 Token.js
 .DS_Store
