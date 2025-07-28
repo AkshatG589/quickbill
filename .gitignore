@@ -12,8 +12,8 @@
 /build
 
 #hide admin
-/backend/routes/Admin/
-/src/pages/Admin/
+/backend/routes/Admin.js
+/src/pages/Admin.js
 /src/hooks
 # misc
 Token.js
